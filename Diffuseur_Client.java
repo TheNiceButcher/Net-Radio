@@ -16,11 +16,7 @@ public class Diffuseur_Client implements Runnable {
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter  pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 		) {
-			while (true)
-			{
-				String mess = br.readLine();
-				if(mess == null)
-					continue;
+			String mess = br.readLine();
 				String type_mess = mess.substring(0,4);
 				System.out.println(type_mess);
 				if (type_mess.equals("MESS"))
@@ -48,9 +44,9 @@ public class Diffuseur_Client implements Runnable {
 						pw.print(to_send);
 						pw.flush();
 					}
-
+					pw.print("ENDM\r\n");
 				}
-			}
+				socket.close();
 		} catch(Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
