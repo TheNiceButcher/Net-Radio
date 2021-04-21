@@ -3,6 +3,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+/**
+ Une instance de Un_Diffuseur représente un diffuseur. Il a de ce fait
+ 	- Un port de multi-diffusion,
+	- Un port pour recevoir les messages utilisateurs
+	- Une addresse IPv4 de multi-diffusion,
+	- Un identifiant.
+ Il a également une liste des messages à diffuser (à voir comment la remplir),
+ et une liste des messages deja diffusés.
+**/
 public class Un_Diffuseur {
 	private final int port_multi;
 	private final int port_tcp;
@@ -11,13 +20,20 @@ public class Un_Diffuseur {
 	private List<List<String>> mess_a_diff;
 	private List<List<String>> mess_diffuse;
 	private int compteur;
+	/**
+	 Crée un diffuseur avec un nom de fichier correspondant à sa configuration
+	 et de la liste de message à diffuser.
+	 Si le fichier ne correspond pas au format voulu, on lève une IllegalArgumentException
+	**/
 	public Un_Diffuseur(String config_file, List<List<String>> mess)
 	{
 		List<String> infos = recup_info(config_file);
+		//Fichier inexistant
 		if(infos == null)
 		{
 			throw new IllegalArgumentException("Fichier de configuration inexistant");
 		}
+		//Fichier n'ayant pas le bon nombre d'argument
 		if (infos.size() != 4)
 		{
 			throw new IllegalArgumentException("Fichier de configuration au mauvais format");
@@ -57,49 +73,83 @@ public class Un_Diffuseur {
 			return null;
 		}
 	}
+	/**
+	 Renvoie la valeur du compteur courant
+	**/
 	public synchronized int getCompteur()
 	{
 		return this.compteur;
 	}
+	/**
+	 Incremente la valeur du compteur
+	**/
 	public synchronized void incrCompteur()
 	{
 		compteur = (compteur + 1) % 10000;
 	}
+	/**
+	Renvoie l'identifiant du diffuseur
+	**/
 	public String getIdentifiant()
 	{
 		return this.identifiant;
 	}
+	/**
+	Renvoie l'adresse de multi-diffusion du diffuseur
+	**/
 	public String getAdresseMulti()
 	{
 		return this.addr_multi;
 	}
+	/**
+	Renvoie le numéro du port de multi-diffusion du diffuseur
+	**/
 	public int getPortMulti()
 	{
 		return this.port_multi;
 	}
+	/**
+	Renvoie le numéro du port permettant de communiquer avec les utilisateurs
+	**/
 	public int getPortTCP()
 	{
 		return this.port_tcp;
 	}
+	/**
+	Renvoie la liste courante des messages à diffuser
+	**/
 	public List<List<String>> getMessageADiffuser()
 	{
 		return this.mess_a_diff;
 	}
+	/**
+	Ajoute le message écrit par identifiant dans les messages à diffuser
+	**/
 	public synchronized void ajout_message(String message, String identifiant)
 	{
 		System.out.println(message);
 		this.mess_a_diff.add(0,Arrays.asList(identifiant,message));
 	}
+	/**
+	Retire le message en tete de liste et l'ajoute à la liste des messages
+	diffusés
+	**/
 	public synchronized void diffusion_message(List<String> mess)
 	{
 		List<String> mess1 = new ArrayList<>(this.mess_a_diff.remove(0));
 		mess1.add(0,String.valueOf(getCompteur()));
 		this.mess_diffuse.add(mess1);
 	}
+	/**
+	Renvoie la liste des messages deja diffusés
+	**/
 	public synchronized List<List<String>> getMessageDiffuse()
 	{
 		return this.mess_diffuse;
 	}
+	/**
+	Démarre la mission du diffuseur
+	**/
 	public void lancer()
 	{
 		new Thread(new Diffuseur_Multi(this)).start();

@@ -3,6 +3,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+/**
+ Permet la création d'un diffuseur
+**/
 public class Diffuseur {
 	public static void main(String[] args) {
 		List<List<String>> f = new ArrayList<>();

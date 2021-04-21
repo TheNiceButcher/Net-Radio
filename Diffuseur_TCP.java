@@ -1,6 +1,9 @@
 import java.util.*;
 import java.io.*;
 import java.net.*;
+/**
+ Gère les communication TCP du diffuseur diff 
+**/
 public final class Diffuseur_TCP implements Runnable {
 	private Un_Diffuseur diff;
 	public Diffuseur_TCP(Un_Diffuseur diff)
