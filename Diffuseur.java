@@ -4,34 +4,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 public class Diffuseur {
-	public static List<String> recup_info(String filename)
-	{
-		File f = new File(filename);
-		if (f.exists())
-		{
-			List<String> list_args = new ArrayList<>();
-			try {
-				BufferedReader d = new BufferedReader(new FileReader(f));
-				String current_line = "";
-				while((current_line = d.readLine())!=null)
-				{
-					list_args.add(current_line);
-				}
-				return list_args;
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally{
-				return list_args;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
 	public static void main(String[] args) {
-		List<String> infos = recup_info(args[0]);
-		new Thread(new Diffuseur_Multi(Integer.parseInt(infos.get(2)),infos.get(1),infos.get(0))).start();
+		List<List<String>> f = new ArrayList<>();
+		for (int i = 0; i < 5;i++)
+		{
+			f.add(Arrays.asList("diffpro","Salut #mon gars"));
+			f.add(Arrays.asList("diffpro","Pk0"));
+		}
+		Un_Diffuseur diff = new Un_Diffuseur(args[0],f);
+		diff.lancer();
 	}
 }
