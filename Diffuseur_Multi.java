@@ -74,7 +74,6 @@ public final class Diffuseur_Multi implements Runnable{
 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,
 											   InetAddress.getByName(addr_multi),port_multi);
 					env.send(diffuse);
-					diff.incrCompteur();
 					diff.diffusion_message(msg);
 				}
 			}

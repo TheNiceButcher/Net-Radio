@@ -139,6 +139,7 @@ public class Un_Diffuseur {
 		List<String> mess1 = new ArrayList<>(this.mess_a_diff.remove(0));
 		mess1.add(0,String.valueOf(getCompteur()));
 		this.mess_diffuse.add(mess1);
+		incrCompteur();
 	}
 	/**
 	Renvoie la liste des messages deja diffusés
