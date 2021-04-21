@@ -22,6 +22,20 @@ public final class Diffuseur_Multi implements Runnable{
 		}
 		return mot_complet;
 	}
+	public static String ajout_zero(String mot,int lg_voulu)
+	{
+		int lg_mot = mot.length();
+		if (lg_mot > lg_voulu)
+		{
+			return null;
+		}
+		String mot_complet = new String(mot);
+		for (int i = lg_mot; i < lg_voulu; i++)
+		{
+			mot_complet = "0" +  mot_complet;
+		}
+		return mot_complet;
+	}
    public void run()
    {
 	   try{
@@ -46,10 +60,7 @@ public final class Diffuseur_Multi implements Runnable{
 					   String identifiant = ajout_diese(msg.get(0),8);
 					   String message_a_diff = ajout_diese(msg.get(1),140);
 					   String compt_to_send = String.valueOf(diff.getCompteur());
-					   for (int i = compt_to_send.length(); i < 4; i++)
-					   {
-						   compt_to_send = "0" + compt_to_send;
-					   }
+					  compt_to_send = ajout_zero(compt_to_send,4);
 					   String mess = "DIFF " + compt_to_send + " " + identifiant + " " + message_a_diff + "\r\n";
 					   data = mess.getBytes();
 					   DatagramPacket diffuse = new DatagramPacket(data,data.length,
