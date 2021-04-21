@@ -16,13 +16,11 @@ public class Un_Diffuseur {
 		List<String> infos = recup_info(config_file);
 		if(infos == null)
 		{
-			System.out.println("Fichier de configuration inexistant");
-			//return null;
+			throw new IllegalArgumentException("Fichier de configuration inexistant");
 		}
 		if (infos.size() != 4)
 		{
-			System.out.println("Fichier de configuration au mauvais format");
-			//return null;
+			throw new IllegalArgumentException("Fichier de configuration au mauvais format");
 		}
 		this.identifiant = infos.get(0);
 		this.addr_multi = infos.get(1);
