@@ -32,6 +32,24 @@ public class Diffuseur_Client implements Runnable {
 					pw.print("ACKM\r\n");
 					pw.flush();
 				}
+				else if (type_mess.equals("LAST")) {
+					int nb_mess = Integer.parseInt(mess.substring(5));
+					List<List<String>> message = new ArrayList<>(diff.getMessageDiffuse());
+					int total_msg = message.size();
+					if (total_msg < nb_mess)
+					{
+						nb_mess = total_msg;
+					}
+					message = message.subList(total_msg - nb_mess,total_msg);
+					for (List<String> msg : message)
+					{
+						String to_send = "OLDM " + Diffuseur_Multi.ajout_zero(msg.get(0),3);
+						to_send += " " + msg.get(1) + " " + msg.get(2) + "\r\n";
+						pw.print(to_send);
+						pw.flush();
+					}
+
+				}
 			}
 		} catch(Exception e) {
 			System.out.println(e);
