@@ -14,14 +14,36 @@
 Client  * client;
 void * multi_cast(void * args)
 {
-	int sock = 0;
-	int fd = open("/dev/pts/2",O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-	memcpy(&sock,args,sizeof(int));
+	int sock = socket(PF_INET,SOCK_DGRAM,0);
+	int ok=1;
+	int r=setsockopt(sock,SOL_SOCKET,SO_REUSEPORT,&ok,sizeof(ok));
+	if(r == -1)
+	{
+		perror("Erreur setsockopt");
+		exit(EXIT_FAILURE);
+	}
+	struct sockaddr_in address_sock;
+	address_sock.sin_family=AF_INET;
+	address_sock.sin_port=htons(atoi(client->port_multi));
+	address_sock.sin_addr.s_addr=htonl(INADDR_ANY);
+	r=bind(sock,(struct sockaddr *)&address_sock,sizeof(struct sockaddr_in));
+	struct ip_mreq mreq;
+	mreq.imr_multiaddr.s_addr=inet_addr(client->addr_multi);
+	mreq.imr_interface.s_addr=htonl(INADDR_ANY);
+	r=setsockopt(sock,IPPROTO_IP,IP_ADD_MEMBERSHIP,&mreq,sizeof(mreq));
+	int fd = 0;
+	memcpy(&fd,args,sizeof(int));
 	char tampon[1000];
 	while(1){
 		int rec=recv(sock,tampon,1000,0);
+		if(rec < 0)
+			break;
 		tampon[rec]='\0';
 		write(fd,tampon,strlen(tampon));
+	}
+	if(fd != 1)
+	{
+		close(fd);
 	}
 	return NULL;
 }
@@ -65,7 +87,7 @@ void * tcp(void * args)
 	return NULL;
 }
 int main(int argc, char const *argv[]) {
-	if (argc != 2)
+	if (argc < 2)
 	{
 		printf("Veuillez indiquer un fichier de configuration\n");
 		return 0;
@@ -79,30 +101,19 @@ int main(int argc, char const *argv[]) {
 		write(STDERR_FILENO,"Fichier de configuration incorrect",35);
 		return EXIT_FAILURE;
 	}
-	//Socket pour le multi-cast
-	int sock_multi=socket(PF_INET,SOCK_DGRAM,0);
-	int ok=1;
-	int r=setsockopt(sock_multi,SOL_SOCKET,SO_REUSEPORT,&ok,sizeof(ok));
-	if(r == -1)
+	int fd_multi = 1;
+	if(argc == 3)
 	{
-		perror("Erreur setsockopt");
-		exit(EXIT_FAILURE);
+		fd_multi = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		if(fd_multi == -1)
+		{
+			perror("Fichier pour afficher les messages de multi_cast invalides");
+			return EXIT_FAILURE;
+		}
 	}
-	struct sockaddr_in address_sock;
-	address_sock.sin_family=AF_INET;
-	address_sock.sin_port=htons(atoi(client->port_multi));
-	address_sock.sin_addr.s_addr=htonl(INADDR_ANY);
-	r=bind(sock_multi,(struct sockaddr *)&address_sock,sizeof(struct sockaddr_in));
-	struct ip_mreq mreq;
-	mreq.imr_multiaddr.s_addr=inet_addr(client->addr_multi);
-	mreq.imr_interface.s_addr=htonl(INADDR_ANY);
-	r=setsockopt(sock_multi,IPPROTO_IP,IP_ADD_MEMBERSHIP,&mreq,sizeof(mreq));
-
-	//Socket pour la connexion TCP
-	int sock_tcp = socket(PF_INET,SOCK_STREAM,0);
 	pthread_t t1,t2;
-	pthread_create(&t1,NULL,multi_cast,&sock_multi);
-	pthread_create(&t2,NULL,tcp,&sock_tcp);
+	pthread_create(&t1,NULL,multi_cast,&fd_multi);
+	pthread_create(&t2,NULL,tcp,NULL);
 	pthread_join(t1,NULL);
 	pthread_join(t2,NULL);
 	free(client);
