@@ -33,12 +33,19 @@ void * multi_cast(void * args)
 	r=setsockopt(sock,IPPROTO_IP,IP_ADD_MEMBERSHIP,&mreq,sizeof(mreq));
 	int fd = 0;
 	memcpy(&fd,args,sizeof(int));
-	char tampon[1000];
+	char tampon[SIZE_DIFF+2];
 	while(1){
-		int rec=recv(sock,tampon,1000,0);
+		int rec=recv(sock,tampon,SIZE_DIFF+2,0);
 		if(rec < 0)
 			break;
+
 		tampon[rec]='\0';
+		if(rec != SIZE_DIFF+2)
+		{
+			write(fd,"Mauvaise taille de message DIFF\n",33);
+			continue;
+		}
+		verif_diff(fd,tampon);
 		write(fd,tampon,strlen(tampon));
 	}
 	if(fd != 1)
