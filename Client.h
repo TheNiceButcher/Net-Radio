@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
+//Constante sur la taille des composantes d'un message
 #define SIZE_TYPE 4
 #define SIZE_ID 8
 #define SIZE_IP 15
@@ -15,6 +15,7 @@
 #define SIZE_NMSG_LAST 3
 #define SIZE_MESS (SIZE_TYPE + SIZE_ID + SIZE_MSG + 2)
 #define SIZE_DIFF (SIZE_TYPE + SIZE_NMSG_DIFF + SIZE_ID + SIZE_MSG + 3)
+//Structure pour modéliser un utilisateur
 typedef struct Client_t{
 	char id[SIZE_ID + 1];
 	char addr_multi[SIZE_IP + 1];
@@ -22,7 +23,10 @@ typedef struct Client_t{
 	char addr_diff[SIZE_IP + 1];
 	char port_tcp[SIZE_PORT + 1];
 } Client;
-
+/*
+Crée un client à partir d'un fichier de configuration.
+Si celui n'existe pas, ou est incorrect, on renvoie NULL
+*/
 Client * create_client(char * filename)
 {
 	int fd = open(filename,O_RDONLY);
@@ -106,6 +110,10 @@ Client * create_client(char * filename)
 	sprintf(client->port_tcp,"%s",port_tcp);
 	return client;
 }
+/**
+Verifie si le composant num_msg est au bon format
+Renvoie 1 si c'est le cas, 0 sinon
+**/
 int verif_num(char * nb, int lg)
 {
 	if(strlen(nb) != lg)
@@ -121,7 +129,12 @@ int verif_num(char * nb, int lg)
 	}
 	return 1;
 }
-void verif_diff(int fd, char message[SIZE_DIFF + 2])
+/*
+ Verifie si le message en argument respecte le format d'un message de type DIFF.
+ Si ce message n'est pas au bon format, on ecrit la raison dans fd
+ Renvoie 1 si c'est le cas, 0 sinon
+*/
+int verif_diff(int fd, char message[SIZE_DIFF + 2])
 {
 	char type_mess[5];
 	memcpy(type_mess,message,SIZE_TYPE);
@@ -129,12 +142,12 @@ void verif_diff(int fd, char message[SIZE_DIFF + 2])
 	if(strcmp(type_mess,"DIFF"))
 	{
 		write(fd,"Mauvais message DIFF\n",22);
-		return;
+		return 0;
 	}
 	if(message[SIZE_DIFF + 1] != '\n' || message[SIZE_DIFF] != '\r')
 	{
 		write(fd,"Ne finis pas bien\n",19);
-		return;
+		return 0;
 	}
 	char id[SIZE_ID+1],num_msg[SIZE_NMSG_DIFF+1],msg[SIZE_MSG+1];
 	memcpy(num_msg,message + 5,SIZE_NMSG_DIFF);
@@ -146,11 +159,12 @@ void verif_diff(int fd, char message[SIZE_DIFF + 2])
 	if(message[4] != ' ' || message[9] != ' ' || message[18] != ' ')
 	{
 		write(fd,"Mauvais Format\n",16);
-		return;
+		return 0;
 	}
 	if(!verif_num(num_msg,4))
 	{
 		write(fd,"Mauvais numero message\n",25);
-		return;
+		return 0;
 	}
+	return 1;
 }

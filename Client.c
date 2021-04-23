@@ -12,6 +12,9 @@
 #include <pthread.h>
 #include "Client.h"
 Client  * client;
+/*
+ Gére la réception des messages sur le multi-cast
+*/
 void * multi_cast(void * args)
 {
 	int sock = socket(PF_INET,SOCK_DGRAM,0);
@@ -45,8 +48,8 @@ void * multi_cast(void * args)
 			write(fd,"Mauvaise taille de message DIFF\n",33);
 			continue;
 		}
-		verif_diff(fd,tampon);
-		write(fd,tampon,strlen(tampon));
+		if (verif_diff(fd,tampon))
+			write(fd,tampon,strlen(tampon));
 	}
 	if(fd != 1)
 	{
@@ -54,6 +57,9 @@ void * multi_cast(void * args)
 	}
 	return NULL;
 }
+/*
+Gére la partie tcp entre le client et le diffuseur 
+*/
 void * tcp(void * args)
 {
 	struct sockaddr_in adress_sock;
