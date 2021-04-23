@@ -26,7 +26,6 @@ public class Diffuseur_Client implements Runnable {
 			{
 				String id = mess.substring(5,12);
 				String message = mess.substring(14);
-				System.out.println(id + "Yeah" + message);
 				diff.ajout_message(message,id);
 				pw.print("ACKM\r\n");
 				pw.flush();
@@ -50,6 +49,7 @@ public class Diffuseur_Client implements Runnable {
 					pw.flush();
 				}
 				pw.print("ENDM\r\n");
+				pw.flush();
 			}
 			socket.close();
 		} catch(Exception e) {

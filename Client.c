@@ -63,27 +63,71 @@ void * tcp(void * args)
 	int sock = 0;
 	while(1)
 	{
-		sleep(10);
+		char choix;
+		int nb_msg = 0;
+		int t = 0;
+		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message\n");
+		scanf("%1s",&choix);
+		switch (choix) {
+			case 'M':
+				t = 0;
+				break;
+			case 'L':
+				t = 1;
+				printf("Quel nombre de messages ?\n");
+				scanf("%d",&nb_msg);
+				break;
+			default:
+				printf("Vous n'avons pas compris votre demande\n");
+				continue;
+		}
 		sock = socket(PF_INET,SOCK_STREAM,0);
 		int r = connect(sock,(struct sockaddr *)&adress_sock,sizeof(struct sockaddr_in));
 		if(r != -1)
 		{
-			char to_send[SIZE_MESS + 2];
-			char message[SIZE_MSG+1];
-			sprintf(message,"Coucou");
-			for(int i = strlen(message); i < SIZE_MSG;i++)
+			if (t == 0)
 			{
-				message[i] = '#';
+				char to_send[SIZE_MESS + 2];
+				char message[SIZE_MSG+1];
+				sprintf(message,"Coucou");
+				for(int i = strlen(message); i < SIZE_MSG;i++)
+				{
+					message[i] = '#';
+				}
+				message[SIZE_MSG] = '\0';
+				sprintf(to_send,"MESS %s %s\r\n",client->id,message);
+				char mess[5];
+				sleep(10);
+				send(sock,to_send,SIZE_MESS + 2,0);
+				int r = recv(sock,mess,SIZE_TYPE,0);
+				mess[r] = '\0';
+				printf("%s\n",mess);
+				close(sock);
 			}
-			message[SIZE_MSG] = '\0';
-			sprintf(to_send,"MESS %s %s\r\n",client->id,message);
-			char mess[5];
-			sleep(10);
-			send(sock,to_send,SIZE_MESS + 2,0);
-			int r = recv(sock,mess,SIZE_TYPE,0);
-			mess[r] = '\0';
-			printf("%s\n",mess);
-			close(sock);
+			if(t == 1)
+			{
+				char to_send[10];
+				char nbmsg[4];
+				sprintf(nbmsg,"%03d",nb_msg);
+				sprintf(to_send,"LAST %s",nbmsg);
+				to_send[8] = '\r';
+				to_send[9] = '\n';
+				printf("%s\n",to_send);
+				send(sock,to_send,10,0);
+				for(int i = 0; i < nb_msg; i++)
+				{
+					char buffer[1000];
+					int r = recv(sock,buffer,1000,0);
+					buffer[r] = '\0';
+					printf("REcu %s\n", buffer);
+					if(strcmp("ENDM\r\n",buffer)==0)
+					{
+						break;
+					}
+
+				}
+				close(sock);
+			}
 		}
 		else
 		{
