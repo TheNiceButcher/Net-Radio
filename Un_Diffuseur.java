@@ -47,6 +47,19 @@ public class Un_Diffuseur {
 		this.compteur = 0;
 	}
 	/**
+	Crée un diffuseur avec les informations en arguments et une liste de diffusion vide
+	**/
+	public Un_Diffuseur(String id,String addr_multi,int port_multi,int port_tcp)
+	{
+		this.identifiant = id;
+		this.addr_multi = addr_multi;
+		this.port_multi = port_multi;
+		this.port_tcp = port_tcp;
+		this.mess_a_diff = new ArrayList<>();
+		this.mess_diffuse = new ArrayList<>();
+		this.compteur = 0;
+	}
+	/**
 		Récupere les informations de configuration pour le diffuseur
 	**/
 	public static List<String> recup_info(String filename)
@@ -118,7 +131,7 @@ public class Un_Diffuseur {
 	/**
 	Renvoie la liste courante des messages à diffuser
 	**/
-	public List<List<String>> getMessageADiffuser()
+	public List<List<String>> getMessageADiffuser() 
 	{
 		return this.mess_a_diff;
 	}
