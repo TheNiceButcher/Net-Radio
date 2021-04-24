@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 /**
- Gère les communication TCP du diffuseur diff 
+ Gère les communication TCP du diffuseur diff
 **/
 public final class Diffuseur_TCP implements Runnable {
 	private Un_Diffuseur diff;
@@ -15,6 +15,9 @@ public final class Diffuseur_TCP implements Runnable {
 		try {
 			int port = diff.getPortTCP();
 			ServerSocket server = new ServerSocket(port);
+			InetAddress address_diff = server.getInetAddress();
+			//System.out.println("C" + InetAddress.getLocalHost().getHostAddress());
+			new Thread(new Diffuseur_Gestionnaire(diff,InetAddress.getLocalHost().getHostAddress())).start();
 			while(true)
 			{
 				Socket sock = server.accept();

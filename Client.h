@@ -15,6 +15,7 @@
 #define SIZE_NMSG_LAST 3
 #define SIZE_MESS (SIZE_TYPE + SIZE_ID + SIZE_MSG + 2)
 #define SIZE_DIFF (SIZE_TYPE + SIZE_NMSG_DIFF + SIZE_ID + SIZE_MSG + 3)
+#define SIZE_ITEM (SIZE_TYPE + 2*SIZE_IP + 2*SIZE_PORT + SIZE_ID + 5)
 //Structure pour modéliser un utilisateur
 typedef struct Client_t{
 	char id[SIZE_ID + 1];

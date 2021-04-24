@@ -58,30 +58,45 @@ void * multi_cast(void * args)
 	return NULL;
 }
 /*
-Gére la partie tcp entre le client et le diffuseur 
+Gére la partie tcp entre le client et le diffuseur
 */
 void * tcp(void * args)
 {
 	struct sockaddr_in adress_sock;
 	adress_sock.sin_family = AF_INET;
-	adress_sock.sin_port = htons(atoi(client->port_tcp));
-	inet_aton(client->addr_diff,&adress_sock.sin_addr);
+	/*adress_sock.sin_port = htons(atoi(client->port_tcp));
+	inet_aton(client->addr_diff,&adress_sock.sin_addr);*/
 	int sock = 0;
 	while(1)
 	{
 		char choix;
 		int nb_msg = 0;
 		int t = 0;
-		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message\n");
+		char address_gest[16];
+		int port_gest = 0;
+		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message G-\n");
 		scanf("%1s",&choix);
 		switch (choix) {
 			case 'M':
 				t = 0;
+				adress_sock.sin_port = htons(atoi(client->port_tcp));
+				inet_aton(client->addr_diff,&adress_sock.sin_addr);
 				break;
 			case 'L':
 				t = 1;
 				printf("Quel nombre de messages ?\n");
 				scanf("%d",&nb_msg);
+				adress_sock.sin_port = htons(atoi(client->port_tcp));
+				inet_aton(client->addr_diff,&adress_sock.sin_addr);
+				break;
+			case 'G':
+				t = 2;
+				printf("Quelle adresse pour le gestionnaire ?\n");
+				scanf("%s",address_gest);
+				printf("Le port ?\n");
+				scanf("%d",&port_gest);
+				adress_sock.sin_port = htons(port_gest);
+				inet_aton(address_gest,&adress_sock.sin_addr);
 				break;
 			default:
 				printf("Vous n'avons pas compris votre demande\n");
@@ -131,6 +146,30 @@ void * tcp(void * args)
 						break;
 					}
 
+				}
+				close(sock);
+			}
+			if(t == 2)
+			{
+				char to_send[]="LIST\r\n";
+				send(sock,to_send,6,0);
+				char nb_diff_msg[9];
+				int r = recv(sock,nb_diff_msg,9,0);
+				nb_diff_msg[r] = '\0';
+				printf("%s\n",nb_diff_msg);
+				if (strncmp(nb_diff_msg,"LIBN",4)==0)
+				{
+					char nb_diffs[3];
+					strncpy(nb_diffs,nb_diff_msg + 5,2);
+					nb_diffs[2] = '\0';
+					int nb_diff = atoi(nb_diffs);
+					for(int i = 0; i < nb_diff; i++)
+					{
+						char item[SIZE_ITEM+1];
+						int r = recv(sock,item,SIZE_ITEM,0);
+						item[r] = '\0';
+						printf("%s\n",item);
+					}
 				}
 				close(sock);
 			}
