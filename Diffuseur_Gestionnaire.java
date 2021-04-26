@@ -2,30 +2,16 @@ import java.net.*;
 import java.io.*;
 import java.lang.*;
 import java.util.*;
-public class Diffuseur_Gestionnaire implements Runnable{
+/**
+Gére la communication entre un diffuseur et un gestionnaire
+**/
+public class Diffuseur_Gestionnaire implements Runnable,Entite{
 	private String addr_diff;
 	private Un_Diffuseur diff;
 	public Diffuseur_Gestionnaire(Un_Diffuseur addr_diff,String ip)
 	{
 		this.addr_diff = ip;
 		this.diff = addr_diff;
-	}
-	public static String convert_ip(String ip)
-	{
-		String[] m = ip.split("\\.");
-		System.out.println(m.length);
-		String new_ip = new String();
-		for (int i = 0; i < m.length;i++)
-		{
-			new_ip += Diffuseur_Multi.ajout_zero(m[i],3);
-			if(i != 3)
-			{
-				new_ip += ".";
-			}
-			System.out.println(m[i]);
-		}
-		System.out.println(new_ip);
-		return new_ip;
 	}
 	public void run()
 	{
@@ -46,10 +32,9 @@ public class Diffuseur_Gestionnaire implements Runnable{
 			Socket sock = new Socket(addr,port);
 			BufferedReader br=new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			PrintWriter pw=new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
-			String mess = "REGI " + diff.getIdentifiant() + " " + convert_ip(diff.getAdresseMulti());
-			mess += " " + Diffuseur_Multi.ajout_zero(String.valueOf(diff.getPortMulti()),4) + " " + convert_ip(addr_diff);
-			mess += " " + Diffuseur_Multi.ajout_zero(String.valueOf(diff.getPortTCP()),4);
-			convert_ip(diff.getAdresseMulti());
+			String mess = "REGI " + diff.getIdentifiant() + " " + Entite.convert_ip(diff.getAdresseMulti());
+			mess += " " + Entite.ajout_zero(String.valueOf(diff.getPortMulti()),4) + " " + Entite.convert_ip(addr_diff);
+			mess += " " + Entite.ajout_zero(String.valueOf(diff.getPortTCP()),4);
 			pw.print(mess + "\r\n");
 			pw.flush();
 			String msg_retour = br.readLine();

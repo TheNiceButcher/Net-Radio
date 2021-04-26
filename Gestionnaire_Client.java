@@ -2,6 +2,9 @@ import java.net.*;
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+/**
+Gére la communication entre un gestionnaire et un client
+**/
 public class Gestionnaire_Client implements Runnable
 {
 	private Un_Gestionnaire gestion;

@@ -50,9 +50,9 @@ public class Diffuseur_Client implements Runnable {
 				message = message.subList(total_msg - nb_mess,total_msg);
 				for (List<String> msg : message)
 				{
-					String to_send = "OLDM " + Diffuseur_Multi.ajout_zero(msg.get(0),4);
-					to_send += " " + Diffuseur_Multi.ajout_diese(msg.get(1),8) + " ";
-					to_send += Diffuseur_Multi.ajout_diese(msg.get(2),140) + "\r\n";
+					String to_send = "OLDM " + Entite.ajout_zero(msg.get(0),4);
+					to_send += " " + Entite.ajout_diese(msg.get(1),8) + " ";
+					to_send += Entite.ajout_diese(msg.get(2),140) + "\r\n";
 					System.out.println(to_send);
 					pw.print(to_send);
 					pw.flush();

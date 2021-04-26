@@ -23,25 +23,35 @@ public class Un_Diffuseur {
 	/**
 	 Crée un diffuseur avec un nom de fichier correspondant à sa configuration
 	 et de la liste de message à diffuser.
-	 Si le fichier ne correspond pas au format voulu, on lève une IllegalArgumentException
+	 Si le fichier ne correspond pas au format voulu, on lève une BadConfigFileException
 	**/
-	public Un_Diffuseur(String config_file, List<List<String>> mess)
+	public Un_Diffuseur(String config_file, List<List<String>> mess) throws BadConfigFileException
 	{
 		List<String> infos = recup_info(config_file);
 		//Fichier inexistant
 		if(infos == null)
 		{
-			throw new IllegalArgumentException("Fichier de configuration inexistant");
+			throw new BadConfigFileException("Fichier de configuration inexistant");
 		}
 		//Fichier n'ayant pas le bon nombre d'argument
 		if (infos.size() != 4)
 		{
-			throw new IllegalArgumentException("Fichier de configuration au mauvais format");
+			throw new BadConfigFileException("Fichier de configuration au mauvais format");
 		}
 		this.identifiant = infos.get(0);
 		this.addr_multi = infos.get(1);
-		this.port_multi = Integer.parseInt(infos.get(2));
-		this.port_tcp = Integer.parseInt(infos.get(3));
+		int p_m = Integer.parseInt(infos.get(2));
+		if (p_m >= 10000 || p_m < 0)
+		{
+			throw new BadConfigFileException("Port de multi diffusion incorrect");
+		}
+		this.port_multi = p_m;
+		int p_t = Integer.parseInt(infos.get(3));
+		if (p_t >= 10000 || p_t < 0)
+		{
+			throw new BadConfigFileException("Port de multi diffusion incorrect");
+		}
+		this.port_tcp = p_t;
 		this.mess_a_diff = new ArrayList<>(mess);
 		this.mess_diffuse = new ArrayList<>();
 		this.compteur = 0;
@@ -131,7 +141,7 @@ public class Un_Diffuseur {
 	/**
 	Renvoie la liste courante des messages à diffuser
 	**/
-	public List<List<String>> getMessageADiffuser() 
+	public List<List<String>> getMessageADiffuser()
 	{
 		return this.mess_a_diff;
 	}

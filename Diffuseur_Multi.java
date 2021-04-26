@@ -10,41 +10,6 @@ public final class Diffuseur_Multi implements Runnable{
 	{
 		this.diff = diff;
 	}
-	/**
-	Renvoie mot à la bonne longueur (lg_voulu), en le complémentant avec des '#'
-	Renvoie null si mot a plus de lg_voulu caracères
-	**/
-	public static String ajout_diese(String mot,int lg_voulu)
-	{
-		int lg_mot = mot.length();
-		if (lg_mot > lg_voulu)
-		{
-			return null;
-		}
-		String mot_complet = new String(mot);
-		for (int i = lg_mot; i < lg_voulu; i++)
-		{
-			mot_complet += "#";
-		}
-		return mot_complet;
-	}
-	/**
-	Renvoie mot à la bonne longueur, en ajoutant des "0" au début de celui-ci
-	**/
-	public static String ajout_zero(String mot,int lg_voulu)
-	{
-		int lg_mot = mot.length();
-		if (lg_mot > lg_voulu)
-		{
-			return null;
-		}
-		String mot_complet = new String(mot);
-		for (int i = lg_mot; i < lg_voulu; i++)
-		{
-			mot_complet = "0" +  mot_complet;
-		}
-		return mot_complet;
-	}
    public void run()
    {
 	   try{
@@ -65,10 +30,10 @@ public final class Diffuseur_Multi implements Runnable{
 				   }
 				   List<String> msg = diff.getMessageADiffuser().get(0);
 
-				   String identifiant = ajout_diese(msg.get(0),8);
-				   String message_a_diff = ajout_diese(msg.get(1),140);
+				   String identifiant = Entite.ajout_diese(msg.get(0),8);
+				   String message_a_diff = Entite.ajout_diese(msg.get(1),140);
 				   String compt_to_send = String.valueOf(diff.getCompteur());
-				   compt_to_send = ajout_zero(compt_to_send,4);
+				   compt_to_send = Entite.ajout_zero(compt_to_send,4);
 				   String mess = "DIFF " + compt_to_send + " " + identifiant + " " + message_a_diff + "\r\n";
 				   data = mess.getBytes();
 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,

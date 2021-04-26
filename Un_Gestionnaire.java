@@ -4,25 +4,44 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.*;
+/**
+ Classe représentant un gestionnaire.
+ On peut définir un gestionnaire via mon numéro de port, le nombre maximal de
+ diffuseur qu'il peut stocker et une liste de diffuseur.
+**/
 public final class Un_Gestionnaire
 {
 	private final int port;
 	private final int max_diff;
 	private List<List<String>> diffuseurs;
+	/**
+	Crée une instance de Un_Gestionnaire avec le port et le nombre maximal de
+	diffuseur qu'il peut stocker
+	**/
 	public Un_Gestionnaire(int port,int max_diff)
 	{
 		this.port = port;
 		this.max_diff = max_diff;
 		this.diffuseurs = new ArrayList<>();
 	}
+	/**
+	Renvoie le port sur lequel on peut communiquer avec ce gestionnaire
+	**/
 	public int getPort()
 	{
 		return this.port;
 	}
+	/**
+	Renvoie la liste des diffuseurs stockés dans le gestionnaire
+	**/
 	public synchronized List<List<String>> getDiffuseurs()
 	{
 		return new ArrayList<>(diffuseurs);
 	}
+	/**
+	Ajoute le diffuseur diff, connecté sur l'adresse ip si cela est possible (ndlr
+	la liste des diffuseurs contient moins de max_diff)
+	**/
 	public synchronized boolean ajout_diff(Un_Diffuseur diff,String ip)
 	{
 		if(diffuseurs.size() == this.max_diff)
@@ -36,6 +55,9 @@ public final class Un_Gestionnaire
 		diffuseurs.add(Arrays.asList(id,port_multi,addr_mult,port_tcp,ip));
 		return true;
 	}
+	/**
+	Retire de la liste des diffuseurs, le diffuseur ayant l'identifiant en argument
+	**/
 	public synchronized boolean retrait_diff(String id)
 	{
 		Iterator<List<String>> it = this.diffuseurs.iterator();
@@ -50,6 +72,9 @@ public final class Un_Gestionnaire
 		}
 		return false;
 	}
+	/**
+	Démarre le gestionnaire 
+	**/
 	public void lancer()
 	{
 		try

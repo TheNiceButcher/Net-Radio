@@ -19,13 +19,14 @@ public class Diffuseur {
 			Un_Diffuseur diff = new Un_Diffuseur(args[0],f);
 			diff.lancer();
 		}
-		catch(IllegalArgumentException e)
+		catch(BadConfigFileException e)
 		{
 			String error_msg = e.getMessage();
-			if(error_msg.substring(0,24).equals("Fichier de configuration"))
-				System.out.println(error_msg);
-			else
-				e.printStackTrace();
+			System.out.println(e);
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
 		}
 	}
 }
