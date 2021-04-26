@@ -1,4 +1,3 @@
-$DIFF=[Un_Diffuseur.class,Diffuseur_Multi.class,Diffuseur_Client.class,Diffuseur_TCP.class]
 Diffuseur: Diffuseur.java Un_Diffuseur.class
 	javac Diffuseur.java
 Un_Diffuseur.class: Un_Diffuseur.java Diffuseur_Multi.class Diffuseur_TCP.class
@@ -21,3 +20,4 @@ Gestionnaire_Diffuseur.class: Gestionnaire_Diffuseur.java
 	javac Gestionnaire_Diffuseur.java
 clean:
 	rm *.class client
+complet: Diffuseur Client Gestionnaire
