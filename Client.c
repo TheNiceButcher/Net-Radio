@@ -157,12 +157,14 @@ void * tcp(void * args)
 				int r = recv(sock,nb_diff_msg,9,0);
 				nb_diff_msg[r] = '\0';
 				printf("%s\n",nb_diff_msg);
-				if (strncmp(nb_diff_msg,"LIBN",4)==0)
+				if (strncmp(nb_diff_msg,"LINB",4)==0)
 				{
+					printf("Salut\n");
 					char nb_diffs[3];
 					strncpy(nb_diffs,nb_diff_msg + 5,2);
 					nb_diffs[2] = '\0';
 					int nb_diff = atoi(nb_diffs);
+					printf("%d\n",nb_diff);
 					for(int i = 0; i < nb_diff; i++)
 					{
 						char item[SIZE_ITEM+1];

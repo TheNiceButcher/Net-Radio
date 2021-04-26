@@ -53,7 +53,10 @@ public class Gestionnaire_Client implements Runnable
 				{
 					pw.print("REOK\r\n");
 					pw.flush();
-					new Thread(new Gestionnaire_Diffuseur(socket,gestion,diff));
+					Gestionnaire_Diffuseur g = new Gestionnaire_Diffuseur(socket,gestion,diff);
+					Thread t =  new Thread(g);
+					t.start();
+					t.join();
 				}
 				else
 				{

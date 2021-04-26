@@ -21,13 +21,22 @@ public class Gestionnaire_Diffuseur implements Runnable{
 			sock.setSoTimeout(20000);
 			while(is_connected)
 			{
-				Thread.sleep(30);
+				Thread.sleep(11000);
 				pw.print("RUOK\r\n");
 				pw.flush();
 				String s = br.readLine();
-				if(s.equals("IMOK\r\n"))
+				if(s == null)
 				{
-
+					System.out.println("Connexion perdu");
+					gest.retrait_diff(id);
+				}
+				else if(s.equals("IMOK"))
+				{
+					System.out.println("Bien connecté");
+				}
+				else
+				{
+					System.out.println("Message inconnu");
 				}
 			}
 		} catch(SocketTimeoutException e) {

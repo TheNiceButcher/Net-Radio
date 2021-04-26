@@ -19,13 +19,22 @@ public class Diffuseur_Client implements Runnable {
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter  pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 		) {
-			String mess = br.readLine();
+			//String mess = br.readLine();
+			char[] readd = new char[157];
+			br.read(readd,0,157);
+			String mess = new String(readd);
+			System.out.println(mess);
+			System.out.println(mess.length());
 			String type_mess = mess.substring(0,4);
 			System.out.println(type_mess);
 			if (type_mess.equals("MESS"))
 			{
 				String id = mess.substring(5,12);
-				String message = mess.substring(14);
+				String message = mess.substring(14,154);
+				if (!mess.substring(154,156).equals("\r\n"))
+				{
+					System.out.println("Mauvais format");
+				}
 				diff.ajout_message(message,id);
 				pw.print("ACKM\r\n");
 				pw.flush();
@@ -50,6 +59,10 @@ public class Diffuseur_Client implements Runnable {
 				}
 				pw.print("ENDM\r\n");
 				pw.flush();
+			}
+			else
+			{
+				System.out.println("Message " + mess + "non reconnu");
 			}
 			socket.close();
 		} catch(Exception e) {
