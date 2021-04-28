@@ -29,15 +29,23 @@ public class Diffuseur_Client implements Runnable {
 			System.out.println(type_mess);
 			if (type_mess.equals("MESS"))
 			{
-				String id = mess.substring(5,12);
+				String id = mess.substring(5,13);
 				String message = mess.substring(14,154);
-				if (!mess.substring(154,156).equals("\r\n"))
+				System.out.println(id + " " + message);
+				if(mess.charAt(4) != ' ' || mess.charAt(13) != ' ')
+				{
+					System.out.println("Mauvaise format pour MESS");
+				}
+				else if (!mess.substring(154,156).equals("\r\n"))
 				{
 					System.out.println("Mauvais format");
 				}
-				diff.ajout_message(message,id);
-				pw.print("ACKM\r\n");
-				pw.flush();
+				else
+				{
+					diff.ajout_message(message,id);
+					pw.print("ACKM\r\n");
+					pw.flush();
+				}
 			}
 			else if (type_mess.equals("LAST")) {
 				int nb_mess = Integer.parseInt(mess.substring(5));

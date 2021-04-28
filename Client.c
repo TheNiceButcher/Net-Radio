@@ -122,7 +122,14 @@ void * tcp(void * args)
 				send(sock,to_send,SIZE_MESS + 2,0);
 				int r = recv(sock,mess,SIZE_TYPE,0);
 				mess[r] = '\0';
-				printf("%s\n",mess);
+				if(strcmp(mess,"ACKM\r\n")==0)
+				{
+					printf("%s\n",mess);
+				}
+				else
+				{
+					printf("Mauvais format pour mess\n");
+				}
 				close(sock);
 			}
 			if(t == 1)
