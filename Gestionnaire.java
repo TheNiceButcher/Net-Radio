@@ -1,6 +1,13 @@
 public class Gestionnaire {
 	public static void main(String[] args) {
-		Un_Gestionnaire gest = new Un_Gestionnaire(9456,10);
+		if(args.length != 2)
+		{
+			System.out.println("Un gestionnaire doit être lancé avec 2 arguments: son port, et son nombre maximal de diffuseur");
+			return;
+		}
+		int port = Integer.parseInt(args[0]);
+		int nb_diff = Integer.parseInt(args[1]);
+		Un_Gestionnaire gest = new Un_Gestionnaire(port,nb_diff);
 		gest.lancer();
 	}
 }

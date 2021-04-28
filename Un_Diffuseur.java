@@ -25,7 +25,7 @@ public class Un_Diffuseur {
 	 et de la liste de message à diffuser.
 	 Si le fichier ne correspond pas au format voulu, on lève une BadConfigFileException
 	**/
-	public Un_Diffuseur(String config_file, List<List<String>> mess) throws BadConfigFileException
+	public Un_Diffuseur(String config_file, List<String> mess) throws BadConfigFileException
 	{
 		List<String> infos = recup_info(config_file);
 		//Fichier inexistant
@@ -41,18 +41,24 @@ public class Un_Diffuseur {
 		this.identifiant = infos.get(0);
 		this.addr_multi = infos.get(1);
 		int p_m = Integer.parseInt(infos.get(2));
+		//Port de multi-diffusion incorrect
 		if (p_m >= 10000 || p_m < 0)
 		{
 			throw new BadConfigFileException("Port de multi diffusion incorrect");
 		}
 		this.port_multi = p_m;
 		int p_t = Integer.parseInt(infos.get(3));
+		//Port de communication TCP incorrect
 		if (p_t >= 10000 || p_t < 0)
 		{
-			throw new BadConfigFileException("Port de multi diffusion incorrect");
+			throw new BadConfigFileException("Port TCP incorrect");
 		}
 		this.port_tcp = p_t;
-		this.mess_a_diff = new ArrayList<>(mess);
+		this.mess_a_diff = new ArrayList<>();
+		for(String msg : mess)
+		{
+			mess_a_diff.add(Arrays.asList(this.identifiant,msg));
+		}
 		this.mess_diffuse = new ArrayList<>();
 		this.compteur = 0;
 	}

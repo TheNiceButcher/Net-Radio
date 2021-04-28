@@ -20,7 +20,6 @@ public final class Diffuseur_Multi implements Runnable{
 		   String addr_multi = diff.getAdresseMulti();
 		   while(true)
 		   {
-			   System.out.println(diff.getMessageADiffuser().size());
 			   Thread.sleep(2000);
 			   synchronized(diff)
 			   {

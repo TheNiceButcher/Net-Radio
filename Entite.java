@@ -37,7 +37,6 @@ public interface Entite {
 	public static String convert_ip(String ip)
 	{
 		String[] m = ip.split("\\.");
-		System.out.println(m.length);
 		String new_ip = new String();
 		for (int i = 0; i < m.length;i++)
 		{
@@ -46,9 +45,7 @@ public interface Entite {
 			{
 				new_ip += ".";
 			}
-			System.out.println(m[i]);
 		}
-		System.out.println(new_ip);
 		return new_ip;
 	}
 }

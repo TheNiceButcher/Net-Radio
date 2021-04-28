@@ -20,6 +20,10 @@ public final class Un_Gestionnaire
 	**/
 	public Un_Gestionnaire(int port,int max_diff)
 	{
+		if(port < 0 || port > 10000)
+		{
+			throw new IllegalArgumentException("Port incorrect (entre 0 et 9999)");
+		}
 		this.port = port;
 		this.max_diff = max_diff;
 		this.diffuseurs = new ArrayList<>();
@@ -73,7 +77,7 @@ public final class Un_Gestionnaire
 		return false;
 	}
 	/**
-	Démarre le gestionnaire 
+	Démarre le gestionnaire
 	**/
 	public void lancer()
 	{

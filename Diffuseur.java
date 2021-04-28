@@ -8,11 +8,11 @@ import java.io.IOException;
 **/
 public class Diffuseur {
 	public static void main(String[] args) {
-		List<List<String>> f = new ArrayList<>();
+		List<String> f = new ArrayList<>();
 		for (int i = 0; i < 5;i++)
 		{
-			f.add(Arrays.asList("diffpro","Salut #mon gars"));
-			f.add(Arrays.asList("diffpro","Pk0"));
+			f.add("Salut #mon gars");
+			f.add("Pk0");
 		}
 		try
 		{

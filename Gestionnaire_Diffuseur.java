@@ -38,7 +38,7 @@ public class Gestionnaire_Diffuseur implements Runnable{
 				}
 				else if(s.equals("IMOK"))
 				{
-					System.out.println("Bien connecté");
+					System.out.println(id + "Bien connecté");
 				}
 				else
 				{
