@@ -24,4 +24,4 @@ Gestionnaire_Diffuseur.class: Gestionnaire_Diffuseur.java
 	javac Gestionnaire_Diffuseur.java
 clean:
 	rm *.class client
-complet: Diffuseur Client Gestionnaire
+projet: Diffuseur Client Gestionnaire
