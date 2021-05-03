@@ -49,7 +49,14 @@ void * multi_cast(void * args)
 			continue;
 		}
 		if (verif_diff(fd,tampon))
-			write(fd,tampon,strlen(tampon));
+		{
+			affichage_diff(fd,tampon);
+			/*write(fd,tampon,strlen(tampon));
+			char msg[SIZE_MSG + 1];
+			strncpy(msg,tampon + (SIZE_DIFF - SIZE_MSG),SIZE_MSG);
+			msg[SIZE_MSG] = '\0';
+			printf("%s\n", retrait_diese(msg));*/
+		}
 	}
 	if(fd != 1)
 	{
@@ -74,7 +81,7 @@ void * tcp(void * args)
 		int t = 0;
 		char address_gest[16];
 		int port_gest = 0;
-		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message G-\n");
+		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message G-Liste de diffuseur par un diffuseur\n");
 		scanf("%1s",&choix);
 		switch (choix) {
 			case 'M':
@@ -166,7 +173,6 @@ void * tcp(void * args)
 				printf("%s\n",nb_diff_msg);
 				if (strncmp(nb_diff_msg,"LINB",4)==0)
 				{
-					printf("Salut\n");
 					char nb_diffs[3];
 					strncpy(nb_diffs,nb_diff_msg + 5,2);
 					nb_diffs[2] = '\0';

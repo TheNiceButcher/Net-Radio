@@ -34,6 +34,10 @@ public interface Entite {
 		}
 		return mot_complet;
 	}
+	/**
+	Prend une adresse ip et l'adapte pour respecter le format des adresses ip
+	dans les messages
+	**/
 	public static String convert_ip(String ip)
 	{
 		String[] m = ip.split("\\.");
@@ -47,5 +51,14 @@ public interface Entite {
 			}
 		}
 		return new_ip;
+	}
+	public static String retrait_diese(String mot)
+	{
+		int i = mot.length() - 1;
+		while (mot.charAt(i) == '#')
+		{
+			i--;
+		}
+		return mot.substring(0,i+1);
 	}
 }

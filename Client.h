@@ -169,3 +169,29 @@ int verif_diff(int fd, char message[SIZE_DIFF + 2])
 	}
 	return 1;
 }
+char * retrait_diese(char * mot)
+{
+	int i = strlen(mot) - 1;
+	while(mot[i] == '#')
+	{
+		i--;
+	}
+	i++;
+	char * new_mot = malloc(i+1);
+	strncpy(new_mot,mot,i);
+	new_mot[i] = '\0';
+	return new_mot;
+}
+void affichage_diff(int fd,char * diff)
+{
+	char msg[SIZE_MSG+1],num_msg[SIZE_NMSG_DIFF+1],pseudo[SIZE_ID+1];
+	strncpy(msg,diff + 19,SIZE_MSG);
+	strncpy(num_msg,diff + 5,SIZE_NMSG_DIFF);
+	strncpy(pseudo,diff + 10,SIZE_ID);
+	msg[SIZE_MSG] = '\0';
+	num_msg[SIZE_NMSG_DIFF] = '\0';
+	pseudo[SIZE_ID] = '\0';
+	char diff_final[SIZE_DIFF+1];
+	sprintf(diff_final,"DIFF %s %s %s\n",num_msg,retrait_diese(pseudo),retrait_diese(msg));
+	write(fd,diff_final,strlen(diff_final));
+}
