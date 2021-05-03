@@ -40,6 +40,10 @@ public final class Un_Diffuseur {
 			throw new BadConfigFileException("Fichier de configuration au mauvais format");
 		}
 		this.identifiant = infos.get(0);
+		if(this.identifiant.length() > 8)
+		{
+			throw new BadConfigFileException("identifiant trop long");
+		}
 		this.addr_multi = infos.get(1);
 		int p_m = Integer.parseInt(infos.get(2));
 		//Port de multi-diffusion incorrect
@@ -69,6 +73,10 @@ public final class Un_Diffuseur {
 	**/
 	public Un_Diffuseur(String id,String addr_multi,int port_multi,int port_tcp)
 	{
+		if (id.length() > 8)
+		{
+			throw new IllegalArgumentException("Identifiant trop long");
+		}
 		this.identifiant = id;
 		this.addr_multi = addr_multi;
 		this.port_multi = port_multi;
