@@ -19,7 +19,6 @@ public class Diffuseur_Client implements Runnable {
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter  pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 		) {
-			//String mess = br.readLine();
 			char[] readd = new char[157];
 			br.read(readd,0,157);
 			String mess = new String(readd);

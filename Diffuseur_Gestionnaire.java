@@ -39,13 +39,18 @@ public class Diffuseur_Gestionnaire implements Runnable,Entite{
 			mess += " " + Entite.ajout_zero(String.valueOf(diff.getPortTCP()),4);
 			pw.print(mess + "\r\n");
 			pw.flush();
-			String msg_retour = br.readLine();
-			if(msg_retour.equals("REOK"))
+			char[] readd = new char[6];
+			br.read(readd,0,6);
+			String msg_retour = new String(readd);
+			System.out.print(msg_retour);
+			if(msg_retour.equals("REOK\r\n"))
 			{
+				System.out.println("Yo mon frere");
 				while(true)
 				{
-					String d = br.readLine();
-					if(d != null && d.equals("RUOK"))
+					br.read(readd,0,6);
+					String d = new String(readd);
+					if(d != null && d.equals("RUOK\r\n"))
 					{
 						pw.print("IMOK\r\n");
 						pw.flush();

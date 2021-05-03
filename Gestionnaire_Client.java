@@ -20,7 +20,9 @@ public class Gestionnaire_Client implements Runnable
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter  pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 		) {
-			String mess = br.readLine();
+			char[] readd = new char[157];
+			int r = br.read(readd,0,157);
+			String mess = new String(readd,0,r);
 			String type_mess = mess.substring(0,4);
 			System.out.println(type_mess);
 			if (type_mess.equals("LIST"))

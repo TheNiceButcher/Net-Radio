@@ -28,20 +28,23 @@ public class Gestionnaire_Diffuseur implements Runnable{
 				Thread.sleep(11000);
 				pw.print("RUOK\r\n");
 				pw.flush();
-				String s = br.readLine();
-				// null -> déconnexion
-				if(s == null)
+				char[] readd = new char[6];
+				int r = br.read(readd,0,6);
+				String s = new String(readd);
+				// déconnexion
+				if(r == -1)
 				{
 					System.out.println("Connexion perdu avec " + id);
 					gest.retrait_diff(id);
 					is_connected = false;
 				}
-				else if(s.equals("IMOK"))
+				else if(s.equals("IMOK\r\n"))
 				{
 					System.out.println(id + "Bien connecté");
 				}
 				else
 				{
+					System.out.println("Message " + r);
 					System.out.println("Message inconnu");
 				}
 			}
