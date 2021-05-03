@@ -27,7 +27,7 @@ public final class Diffuseur_Multi implements Runnable{
 				   {
 					   continue;
 				   }
-				   List<String> msg = diff.getMessageADiffuser().get(0);
+				   /*List<String> msg = diff.getMessageADiffuser().get(0);
 
 				   String identifiant = Entite.ajout_diese(msg.get(0),8);
 				   String message_a_diff = Entite.ajout_diese(msg.get(1),140);
@@ -38,7 +38,18 @@ public final class Diffuseur_Multi implements Runnable{
 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,
 											   InetAddress.getByName(addr_multi),port_multi);
 					env.send(diffuse);
-					diff.diffusion_message(msg);
+					diff.diffusion_message(msg);*/
+					Message msg = diff.getMessageADiffuser().get(0);
+					String identifiant = Entite.ajout_diese(msg.getIdentifiant(),8);
+ 				   String message_a_diff = Entite.ajout_diese(msg.getMessage(),140);
+ 				   String compt_to_send = String.valueOf(diff.getCompteur());
+ 				   compt_to_send = Entite.ajout_zero(compt_to_send,4);
+ 				   String mess = "DIFF " + compt_to_send + " " + identifiant + " " + message_a_diff + "\r\n";
+ 				   data = mess.getBytes();
+ 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,
+ 											   InetAddress.getByName(addr_multi),port_multi);
+ 					env.send(diffuse);
+ 					diff.diffusion_message(msg);
 				}
 			}
 

@@ -34,7 +34,7 @@ public class Diffuseur_Client implements Runnable {
 				System.out.println(id + " " + message);
 				if(mess.charAt(4) != ' ' || mess.charAt(13) != ' ')
 				{
-					System.out.println("Mauvaise format pour MESS");
+					System.out.println("Mauvais format pour MESS");
 				}
 				else if (!mess.substring(154,156).equals("\r\n"))
 				{
@@ -49,18 +49,19 @@ public class Diffuseur_Client implements Runnable {
 			}
 			else if (type_mess.equals("LAST")) {
 				int nb_mess = Integer.parseInt(mess.substring(5));
-				List<List<String>> message = new ArrayList<>(diff.getMessageDiffuse());
+				//List<List<String>> message = new ArrayList<>(diff.getMessageDiffuse());
+				List<Message> message = new ArrayList<>(diff.getMessageDiffuse());
 				int total_msg = message.size();
 				if (total_msg < nb_mess)
 				{
 					nb_mess = total_msg;
 				}
 				message = message.subList(total_msg - nb_mess,total_msg);
-				for (List<String> msg : message)
+				for (Message msg : message)
 				{
-					String to_send = "OLDM " + Entite.ajout_zero(msg.get(0),4);
-					to_send += " " + Entite.ajout_diese(msg.get(1),8) + " ";
-					to_send += Entite.ajout_diese(msg.get(2),140) + "\r\n";
+					String to_send = "OLDM " + Entite.ajout_zero(String.valueOf(msg.getNumMessage()),4);
+					to_send += " " + Entite.ajout_diese(msg.getIdentifiant(),8) + " ";
+					to_send += Entite.ajout_diese(msg.getMessage(),140) + "\r\n";
 					System.out.println(to_send);
 					pw.print(to_send);
 					pw.flush();

@@ -12,13 +12,14 @@ import java.io.IOException;
  Il a également une liste des messages à diffuser (à voir comment la remplir),
  et une liste des messages deja diffusés.
 **/
-public class Un_Diffuseur {
+public final class Un_Diffuseur {
 	private final int port_multi;
 	private final int port_tcp;
 	private final String addr_multi;
 	private final String identifiant;
-	private List<List<String>> mess_a_diff;
-	private List<List<String>> mess_diffuse;
+	//private List<List<String>> mess_a_diff;
+	private List<Message> mess_a_diff;
+	private List<Message> mess_diffuse;
 	private int compteur;
 	/**
 	 Crée un diffuseur avec un nom de fichier correspondant à sa configuration
@@ -57,7 +58,8 @@ public class Un_Diffuseur {
 		this.mess_a_diff = new ArrayList<>();
 		for(String msg : mess)
 		{
-			mess_a_diff.add(Arrays.asList(this.identifiant,msg));
+			//mess_a_diff.add(Arrays.asList(this.identifiant,msg));
+			mess_a_diff.add(new Message(this.identifiant,msg));
 		}
 		this.mess_diffuse = new ArrayList<>();
 		this.compteur = 0;
@@ -147,7 +149,7 @@ public class Un_Diffuseur {
 	/**
 	Renvoie la liste courante des messages à diffuser
 	**/
-	public List<List<String>> getMessageADiffuser()
+	public List<Message> getMessageADiffuser()
 	{
 		return this.mess_a_diff;
 	}
@@ -157,23 +159,26 @@ public class Un_Diffuseur {
 	public synchronized void ajout_message(String message, String identifiant)
 	{
 		System.out.println(message);
-		this.mess_a_diff.add(0,Arrays.asList(identifiant,message));
+		//this.mess_a_diff.add(0,Arrays.asList(identifiant,message));
+		this.mess_a_diff.add(0,new Message(identifiant,message));
 	}
 	/**
 	Retire le message en tete de liste et l'ajoute à la liste des messages
 	diffusés
 	**/
-	public synchronized void diffusion_message(List<String> mess)
+	public synchronized void diffusion_message(Message mess)
 	{
-		List<String> mess1 = new ArrayList<>(this.mess_a_diff.remove(0));
+		/*List<String> mess1 = new ArrayList<>(this.mess_a_diff.remove(0));
 		mess1.add(0,String.valueOf(getCompteur()));
-		this.mess_diffuse.add(mess1);
+		this.mess_diffuse.add(mess1);*/
+		this.mess_a_diff.remove(0);
+		this.mess_diffuse.add(new Message(getCompteur(),mess.getIdentifiant(),mess.getMessage()));
 		incrCompteur();
 	}
 	/**
 	Renvoie la liste des messages deja diffusés
 	**/
-	public synchronized List<List<String>> getMessageDiffuse()
+	public synchronized List<Message> getMessageDiffuse()
 	{
 		return this.mess_diffuse;
 	}
