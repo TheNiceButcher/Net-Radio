@@ -13,7 +13,6 @@ public final class Diffuseur_Multi implements Runnable{
    public void run()
    {
 	   try{
-		   Thread.sleep(3000);
 		   DatagramSocket env = new DatagramSocket();
 		   byte[]data=new byte[1024];
 		   int port_multi = diff.getPortMulti();

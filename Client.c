@@ -125,7 +125,6 @@ void * tcp(void * args)
 				message[SIZE_MSG] = '\0';
 				sprintf(to_send,"MESS %s %s\r\n",client->id,message);
 				char mess[SIZE_TYPE+3];
-				sleep(10);
 				send(sock,to_send,SIZE_MESS + 2,0);
 				int r = recv(sock,mess,SIZE_TYPE + 2,0);
 				mess[r] = '\0';
