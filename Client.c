@@ -19,7 +19,7 @@ void * multi_cast(void * args)
 {
 	int sock = socket(PF_INET,SOCK_DGRAM,0);
 	int ok=1;
-	int r=setsockopt(sock,SOL_SOCKET,SO_REUSEPORT,&ok,sizeof(ok));
+	int r=setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,&ok,sizeof(ok));
 	if(r == -1)
 	{
 		perror("Erreur setsockopt");
@@ -30,6 +30,11 @@ void * multi_cast(void * args)
 	address_sock.sin_port=htons(atoi(client->port_multi));
 	address_sock.sin_addr.s_addr=htonl(INADDR_ANY);
 	r=bind(sock,(struct sockaddr *)&address_sock,sizeof(struct sockaddr_in));
+	if(r==-1)
+	{
+		perror("Bind Multicast");
+		exit(EXIT_FAILURE);
+	}
 	struct ip_mreq mreq;
 	mreq.imr_multiaddr.s_addr=inet_addr(client->addr_multi);
 	mreq.imr_interface.s_addr=htonl(INADDR_ANY);
@@ -76,27 +81,27 @@ void * tcp(void * args)
 	int sock = 0;
 	while(1)
 	{
-		char choix;
+		int choix;
 		int nb_msg = 0;
 		int t = 0;
 		char address_gest[16];
 		int port_gest = 0;
-		printf("Que souhaitez-vous ?\nM-Envoi Message L-Dernier message G-Liste de diffuseur par un diffuseur\n");
-		scanf("%1s",&choix);
+		printf("Que souhaitez-vous ?\n1-Envoi Message 2-Dernier message 3-Liste de diffuseur par un diffuseur\n");
+		scanf("%d",&choix);
 		switch (choix) {
-			case 'M':
+			case 1:
 				t = 0;
 				adress_sock.sin_port = htons(atoi(client->port_tcp));
 				inet_aton(client->addr_diff,&adress_sock.sin_addr);
 				break;
-			case 'L':
+			case 2:
 				t = 1;
 				printf("Quel nombre de messages ?\n");
 				scanf("%d",&nb_msg);
 				adress_sock.sin_port = htons(atoi(client->port_tcp));
 				inet_aton(client->addr_diff,&adress_sock.sin_addr);
 				break;
-			case 'G':
+			case 3:
 				t = 2;
 				printf("Quelle adresse pour le gestionnaire ?\n");
 				scanf("%s",address_gest);
@@ -115,8 +120,8 @@ void * tcp(void * args)
 		{
 			if (t == 0)
 			{
-				char to_send[SIZE_MESS + 2];
-				char message[SIZE_MSG+1];
+				char to_send[SIZE_MESS + 5];
+				char message[SIZE_MSG+2];
 				sprintf(message,"Coucou");
 				for(int i = strlen(message); i < SIZE_MSG;i++)
 				{
@@ -140,12 +145,10 @@ void * tcp(void * args)
 			}
 			if(t == 1)
 			{
-				char to_send[10];
+				char to_send[11];
 				char nbmsg[4];
 				sprintf(nbmsg,"%03d",nb_msg);
-				sprintf(to_send,"LAST %s",nbmsg);
-				to_send[8] = '\r';
-				to_send[9] = '\n';
+				sprintf(to_send,"LAST %s\r\n",nbmsg);
 				printf("%s\n",to_send);
 				send(sock,to_send,10,0);
 				for(int i = 0; i < nb_msg; i++)
