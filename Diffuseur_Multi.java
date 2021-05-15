@@ -27,7 +27,7 @@ public final class Diffuseur_Multi implements Runnable{
 				   {
 					   continue;
 				   }
-					Message msg = diff.getMessageADiffuser().getFirst();
+					Message msg = diff.getMessageADiffuser().get(0);
 					String identifiant = Entite.ajout_diese(msg.getIdentifiant(),8);
  				   String message_a_diff = Entite.ajout_diese(msg.getMessage(),140);
  				   String compt_to_send = String.valueOf(diff.getCompteur());
