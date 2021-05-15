@@ -32,11 +32,13 @@ addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il 
 pour les communications en TCP (< 10000).
 #### Client
  Un fichier de configuration pour le client est de cette forme :
+```
  id
  addr_multi
  port_multi
  addr_diff
  port_tcp
+ ```
  où id est l'identifiant du client et doit être d'une longueur maximale de 8 caractères,
  addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il se connecte pour recevoir les messages, port_multi est le port (< 10000) pour la multi-diffusion, addr_diff est l'adresse du diffuseur (au format a.b.c.d) et port_tcp est le port
  pour les communications en TCP du diffuseur (< 10000).
