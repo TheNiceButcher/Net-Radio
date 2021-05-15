@@ -6,7 +6,7 @@ il faut taper la commande `make entite` où `entite` peut être `Diffuseur`, `Cl
 ou `Gestionnaire`.
 La commande `make clean` supprimera tous les fichiers produits lors de la compilation.
 ## Exécution
-Une fois la compilation effectuée, on peut lancer les différentes entités comme suit:
+* Une fois la compilation effectuée, on peut lancer les différentes entités comme suit:
 	* `java Diffuseur diff-config` pour le diffuseur, avec `diff-config` le nom du fichier de
 configuration de la forme explicitée dans la partie dédiée.
 	* `./client client-config (path)` pour le client, avec `client-config` le nom
@@ -18,7 +18,7 @@ dans la sortie standard.
 `nb_max_diff` est le nombre maximal de diffuseur qu'il peut stocker.
 ## Utilisation
 ### Client
-Quand on lance le client, on se retrouve face un menu nous proposant trois choix:
+* Quand on lance le client, on se retrouve face un menu nous proposant trois choix:
 	* Envoi Message (touche 1): Le client envoie un message au diffuseur pour le diffuser
 sur le canal de multi-diffusion.
 	* Dernier Message (touche 2): On demande au diffuseur les derniers messages qu'il
