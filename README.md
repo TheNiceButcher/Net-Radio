@@ -21,10 +21,12 @@ dans la sortie standard.
 ### Format des fichiers de configuration
 #### Diffuseur
 Un fichier de configuration pour le diffuseur est de cette forme :
+```
 id
 addr_multi
 port_multi
 port_tcp
+```
 où id est l'identifiant du diffuseur et doit être d'une longueur maximale de 8 caractères,
 addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il diffuse les messages, port_multi est le port (< 10000) pour la multi-diffusion, et port_tcp est le port
 pour les communications en TCP (< 10000).
