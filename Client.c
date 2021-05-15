@@ -42,7 +42,7 @@ void * multi_cast(void * args)
 	int fd = 0;
 	memcpy(&fd,args,sizeof(int));
 	char tampon[SIZE_DIFF+2];
-	while(1){
+	while(!client->arret){
 		int rec=recv(sock,tampon,SIZE_DIFF+2,0);
 		if(rec < 0)
 			break;
@@ -56,11 +56,6 @@ void * multi_cast(void * args)
 		if (verif_diff(fd,tampon))
 		{
 			affichage_diff(fd,tampon);
-			/*write(fd,tampon,strlen(tampon));
-			char msg[SIZE_MSG + 1];
-			strncpy(msg,tampon + (SIZE_DIFF - SIZE_MSG),SIZE_MSG);
-			msg[SIZE_MSG] = '\0';
-			printf("%s\n", retrait_diese(msg));*/
 		}
 	}
 	if(fd != 1)
@@ -76,17 +71,15 @@ void * tcp(void * args)
 {
 	struct sockaddr_in adress_sock;
 	adress_sock.sin_family = AF_INET;
-	/*adress_sock.sin_port = htons(atoi(client->port_tcp));
-	inet_aton(client->addr_diff,&adress_sock.sin_addr);*/
 	int sock = 0;
-	while(1)
+	while(!client->arret)
 	{
 		int choix;
 		int nb_msg = 0;
 		int t = 0;
 		char address_gest[16];
 		int port_gest = 0;
-		printf("Que souhaitez-vous ?\n1-Envoi Message 2-Dernier message 3-Liste de diffuseur par un diffuseur\n");
+		printf("Que souhaitez-vous ?\n1-Envoi Message 2-Dernier message 3-Liste de diffuseur par un diffuseur 4-Arret du client\n");
 		scanf("%d",&choix);
 		switch (choix) {
 			case 1:
@@ -109,6 +102,11 @@ void * tcp(void * args)
 				scanf("%d",&port_gest);
 				adress_sock.sin_port = htons(port_gest);
 				inet_aton(address_gest,&adress_sock.sin_addr);
+				break;
+			case 4:
+				printf("Arret du client\n");
+				client->arret = 1;
+				continue;
 				break;
 			default:
 				printf("Vous n'avons pas compris votre demande\n");

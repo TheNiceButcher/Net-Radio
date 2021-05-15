@@ -23,6 +23,7 @@ typedef struct Client_t{
 	char port_multi[SIZE_PORT + 1];
 	char addr_diff[SIZE_IP + 1];
 	char port_tcp[SIZE_PORT + 1];
+	int arret; //Variable pour savoir si on s'arrete ou non
 } Client;
 /*
 Crée un client à partir d'un fichier de configuration.
@@ -109,6 +110,7 @@ Client * create_client(char * filename)
 	sprintf(client->addr_diff,"%s",addr_diff);
 	sprintf(client->port_multi,"%s",port_multi);
 	sprintf(client->port_tcp,"%s",port_tcp);
+	client->arret = 0;
 	return client;
 }
 /**
