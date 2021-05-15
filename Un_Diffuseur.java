@@ -17,7 +17,6 @@ public final class Un_Diffuseur {
 	private final int port_tcp;
 	private final String addr_multi;
 	private final String identifiant;
-	//private List<List<String>> mess_a_diff;
 	private List<Message> mess_a_diff;
 	private List<Message> mess_diffuse;
 	private int compteur;
@@ -176,9 +175,6 @@ public final class Un_Diffuseur {
 	**/
 	public synchronized void diffusion_message(Message mess)
 	{
-		/*List<String> mess1 = new ArrayList<>(this.mess_a_diff.remove(0));
-		mess1.add(0,String.valueOf(getCompteur()));
-		this.mess_diffuse.add(mess1);*/
 		this.mess_a_diff.remove(0);
 		this.mess_diffuse.add(new Message(getCompteur(),mess.getIdentifiant(),mess.getMessage()));
 		incrCompteur();

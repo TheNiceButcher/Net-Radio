@@ -48,7 +48,6 @@ public class Diffuseur_Client implements Runnable {
 			}
 			else if (type_mess.equals("LAST")) {
 				int nb_mess = Integer.parseInt(mess.substring(5,8));
-				//List<List<String>> message = new ArrayList<>(diff.getMessageDiffuse());
 				List<Message> message = new ArrayList<>(diff.getMessageDiffuse());
 				int total_msg = message.size();
 				if (total_msg < nb_mess)

@@ -16,7 +16,6 @@ public final class Diffuseur_TCP implements Runnable {
 			int port = diff.getPortTCP();
 			ServerSocket server = new ServerSocket(port);
 			InetAddress address_diff = server.getInetAddress();
-			//System.out.println("C" + InetAddress.getLocalHost().getHostAddress());
 			new Thread(new Diffuseur_Gestionnaire(diff,InetAddress.getLocalHost().getHostAddress())).start();
 			while(true)
 			{
@@ -24,6 +23,7 @@ public final class Diffuseur_TCP implements Runnable {
 				Diffuseur_Client dc = new Diffuseur_Client(sock,diff);
 				new Thread(dc).start();
 			}
+			System.out.println("TCP fini");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -18,7 +18,7 @@ public class Diffuseur_Gestionnaire implements Runnable,Entite{
 		try (Scanner s = new Scanner(System.in);){
 			while(true)
 			{
-				System.out.println("Tapez 1 pour être enregistrer dans un gestionnaire");
+				System.out.println("Tapez 1 pour être enregistré dans un gestionnaire");
 				int c = s.nextInt();
 				if (c == 1)
 				{
@@ -26,10 +26,8 @@ public class Diffuseur_Gestionnaire implements Runnable,Entite{
 				}
 			}
 			System.out.println("Adresse du gestionnaire ?");
-			//String addr = "127.0.1.1";
 			String addr = s.next();
 			System.out.println("Port ?");
-			//int port = 9456;
 			int port = s.nextInt();
 			Socket sock = new Socket(addr,port);
 			BufferedReader br=new BufferedReader(new InputStreamReader(sock.getInputStream()));
