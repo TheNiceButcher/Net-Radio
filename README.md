@@ -19,17 +19,17 @@ dans la sortie standard.
 ## Utilisation
 ### Client
 * Quand on lance le client, on se retrouve face un menu nous proposant trois choix:
-	* Envoi Message (touche 1): Le client envoie un message au diffuseur pour le diffuser
+	* `Envoi Message` (touche 1): Le client envoie un message au diffuseur pour le diffuser
 sur le canal de multi-diffusion.
-	* Dernier Message (touche 2): On demande au diffuseur les derniers messages qu'il
+	* `Dernier Message` (touche 2): On demande au diffuseur les derniers messages qu'il
 a envoyés. Pour ce faire, après le choix 2, on demande le nombre voulu (entre 0 et ).
 Les messages seront affichées dans la sortie standard.
-	* Liste des diffuseurs (touche 3): Une fois ce choix réalisé, on demande l'adresse
+	* `Liste des diffuseurs` (touche 3): Une fois ce choix réalisé, on demande l'adresse
 et le port du gestionnaire avec lequel on souhaite interagir. On affiche alors les
 diffuseurs enregistrés (leur nom,leur adresse et port de multi-diffusion,leur adresse et
 port pour recevoir les messages des clients) dans ce gestionnaire.
+	* `Arret du client` (touche 4): Quitte le client.
 
-Pour quitter le client, il faut .
 ### Gestionnaire
 Le gestionnaire ne demande pas de manipulations pendant son exécution. Pour le quitter,
 
