@@ -19,6 +19,7 @@ public final class Diffuseur_Multi implements Runnable{
 		   String addr_multi = diff.getAdresseMulti();
 		   while(true)
 		   {
+			   //Envoi de message toutes les 2 secondes
 			   Thread.sleep(2000);
 			   synchronized(diff)
 			   {
@@ -26,7 +27,7 @@ public final class Diffuseur_Multi implements Runnable{
 				   {
 					   continue;
 				   }
-					Message msg = diff.getMessageADiffuser().get(0);
+					Message msg = diff.getMessageADiffuser().getFirst();
 					String identifiant = Entite.ajout_diese(msg.getIdentifiant(),8);
  				   String message_a_diff = Entite.ajout_diese(msg.getMessage(),140);
  				   String compt_to_send = String.valueOf(diff.getCompteur());

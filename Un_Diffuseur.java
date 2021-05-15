@@ -17,7 +17,7 @@ public final class Un_Diffuseur {
 	private final int port_tcp;
 	private final String addr_multi;
 	private final String identifiant;
-	private List<Message> mess_a_diff;
+	private Deque<Message> mess_a_diff;
 	private List<Message> mess_diffuse;
 	private int compteur;
 	/**
@@ -58,7 +58,7 @@ public final class Un_Diffuseur {
 			throw new BadConfigFileException("Port TCP incorrect");
 		}
 		this.port_tcp = p_t;
-		this.mess_a_diff = new ArrayList<>();
+		this.mess_a_diff = new ArrayDeque<>();
 		for(String msg : mess)
 		{
 			//mess_a_diff.add(Arrays.asList(this.identifiant,msg));
@@ -80,7 +80,7 @@ public final class Un_Diffuseur {
 		this.addr_multi = addr_multi;
 		this.port_multi = port_multi;
 		this.port_tcp = port_tcp;
-		this.mess_a_diff = new ArrayList<>();
+		this.mess_a_diff = new ArrayDeque<>();
 		this.mess_diffuse = new ArrayList<>();
 		this.compteur = 0;
 	}
@@ -156,7 +156,7 @@ public final class Un_Diffuseur {
 	/**
 	Renvoie la liste courante des messages à diffuser
 	**/
-	public List<Message> getMessageADiffuser()
+	public Deque<Message> getMessageADiffuser()
 	{
 		return this.mess_a_diff;
 	}
@@ -167,7 +167,7 @@ public final class Un_Diffuseur {
 	{
 		System.out.println(message);
 		//this.mess_a_diff.add(0,Arrays.asList(identifiant,message));
-		this.mess_a_diff.add(0,new Message(identifiant,message));
+		this.mess_a_diff.addFirst(new Message(identifiant,message));
 	}
 	/**
 	Retire le message en tete de liste et l'ajoute à la liste des messages
@@ -175,8 +175,9 @@ public final class Un_Diffuseur {
 	**/
 	public synchronized void diffusion_message(Message mess)
 	{
-		this.mess_a_diff.remove(0);
+		this.mess_a_diff.remove();
 		this.mess_diffuse.add(new Message(getCompteur(),mess.getIdentifiant(),mess.getMessage()));
+		this.mess_a_diff.addLast(new Message(mess.getIdentifiant(),mess.getMessage()));
 		incrCompteur();
 	}
 	/**
