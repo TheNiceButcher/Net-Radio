@@ -43,7 +43,7 @@ public class Gestionnaire_Client implements Runnable
 					pw.flush();
 					System.out.println(msg);
 				}
-				socket.close();
+				//socket.close();
 			}
 			if(type_mess.equals("REGI"))
 			{
@@ -67,9 +67,10 @@ public class Gestionnaire_Client implements Runnable
 				{
 					pw.print("RENO\r\n");
 					pw.flush();
-					socket.close();
+					//socket.close();
 				}
 			}
+			socket.close();
 		} catch(Exception e) {
 			System.out.println(e);
 			e.printStackTrace();

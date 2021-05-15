@@ -1,3 +1,6 @@
+/**
+Permet la creation d'un gestionnaire 
+**/
 public class Gestionnaire {
 	public static void main(String[] args) {
 		if(args.length != 2)

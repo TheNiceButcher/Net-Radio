@@ -13,6 +13,7 @@ public class Diffuseur {
 		{
 			f.add("Salut #mon gars");
 			f.add("Pk0");
+			f.add("Pourqio");
 		}
 		try
 		{
