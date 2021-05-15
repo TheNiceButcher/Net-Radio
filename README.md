@@ -5,6 +5,7 @@ Si on veut juste compiler une entité du projet (diffuseur,client ou gestionnair
 il faut taper la commande `make entite` où `entite` peut être `Diffuseur`, `Client`
 ou `Gestionnaire`.
 La commande `make clean` supprimera tous les fichiers produits lors de la compilation.
+
 ## Exécution
 * Une fois la compilation effectuée, on peut lancer les différentes entités comme suit:
 	* `java Diffuseur diff-config` pour le diffuseur, avec `diff-config` le nom du fichier de
@@ -16,6 +17,28 @@ et `path` le chemin du fichier où l'on veut rediriger les messages reçus en mu
 dans la sortie standard.
 	* `java Gestionnaire port nb_max_diff` où `port` est le numéro du port où il écoute et
 `nb_max_diff` est le nombre maximal de diffuseur qu'il peut stocker.
+
+### Format des fichiers de configuration
+#### Diffuseur
+Un fichier de configuration pour le diffuseur est de cette forme :
+id
+addr_multi
+port_multi
+port_tcp
+où id est l'identifiant du diffuseur et doit être d'une longueur maximale de 8 caractères,
+addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il diffuse les messages, port_multi est le port (< 10000) pour la multi-diffusion, et port_tcp est le port
+pour les communications en TCP (< 10000).
+#### Client
+ Un fichier de configuration pour le client est de cette forme :
+ id
+ addr_multi
+ port_multi
+ addr_diff
+ port_tcp
+ où id est l'identifiant du client et doit être d'une longueur maximale de 8 caractères,
+ addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il se connecte pour recevoir les messages, port_multi est le port (< 10000) pour la multi-diffusion, addr_diff est l'adresse du diffuseur (au format a.b.c.d) et port_tcp est le port
+ pour les communications en TCP du diffuseur (< 10000).
+
 ## Utilisation
 ### Client
 * Quand on lance le client, on se retrouve face un menu nous proposant trois choix:
@@ -32,9 +55,11 @@ port pour recevoir les messages des clients) dans ce gestionnaire.
 
 ### Gestionnaire
 Le gestionnaire ne demande pas de manipulations pendant son exécution. Pour le quitter,
+il faut effectuer un Ctrl-C.
 
 ### Diffuseur
 Une fois lancé, le diffuseur demande à l'utilisateur de taper sur la touche `1` pour
-s'enregistrer auprès d'un gestionnaire. Il demande alors l'adresse et le port sur lesquels on peut contacter le gestionnaire. Pour le quitter, .
+s'enregistrer auprès d'un gestionnaire. Il demande alors l'adresse et le port sur lesquels on peut contacter le gestionnaire. Pour le quitter,
+un Ctrl-C est demandé.
 
 ## Architecture     
