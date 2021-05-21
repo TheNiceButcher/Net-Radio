@@ -67,3 +67,7 @@ s'enregistrer auprès d'un gestionnaire. Il demande alors l'adresse et le port s
 un Ctrl-C est demandé.
 
 ## Architecture     
+Le projet est structuré à partir des 3 entités du programme (client, diffuseur et gestionnaire).
+### Diffuseur
+*Le diffuseur est la partie du programme ayant le plus de code. Il se compose ainsi:
+*
