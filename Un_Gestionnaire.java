@@ -87,7 +87,7 @@ public final class Un_Gestionnaire
 			while(true)
 			{
 				Socket sock = server.accept();
-				Gestionnaire_Client gc = new Gestionnaire_Client(this,sock);
+				Gestionnaire_Service gc = new Gestionnaire_Service(this,sock);
 				new Thread(gc).start();
 			}
 		}

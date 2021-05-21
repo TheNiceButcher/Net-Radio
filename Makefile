@@ -16,12 +16,12 @@ Diffuseur_Gestionnaire.class: Diffuseur_Gestionnaire.java Entite.class
 	javac Diffuseur_Gestionnaire.java
 Entite.class: Entite.java
 	javac Entite.java
-Client: Client.h Client.c
+Client: Message.h Client.h Client.c
 	gcc -Wall Client.c -o client -pthread
-Gestionnaire: Gestionnaire.java Gestionnaire_Client.class
+Gestionnaire: Gestionnaire.java Gestionnaire_Service.class
 	javac Gestionnaire.java
-Gestionnaire_Client.class: Gestionnaire_Client.java Gestionnaire_Diffuseur.class
-	javac Gestionnaire_Client.java
+Gestionnaire_Service.class: Gestionnaire_Service.java Gestionnaire_Diffuseur.class
+	javac Gestionnaire_Service.java
 Gestionnaire_Diffuseur.class: Gestionnaire_Diffuseur.java
 	javac Gestionnaire_Diffuseur.java
 clean:

@@ -5,11 +5,11 @@ import java.util.*;
 /**
 Gére la communication entre un gestionnaire et un client
 **/
-public class Gestionnaire_Client implements Runnable
+public class Gestionnaire_Service implements Runnable
 {
 	private Un_Gestionnaire gestion;
 	private Socket socket;
-	public Gestionnaire_Client(Un_Gestionnaire gestion, Socket socket)
+	public Gestionnaire_Service(Un_Gestionnaire gestion, Socket socket)
 	{
 		this.gestion = gestion;
 		this.socket = socket;
