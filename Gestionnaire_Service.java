@@ -5,7 +5,7 @@ import java.util.*;
 /**
 Gére la communication entre un gestionnaire et une autre entite
 **/
-public class Gestionnaire_Service implements Runnable
+public class Gestionnaire_Service implements Runnable,Entite
 {
 	private Un_Gestionnaire gestion;
 	private Socket socket;
@@ -31,7 +31,7 @@ public class Gestionnaire_Service implements Runnable
 				System.out.println(mess.substring(4));
 				List<List<String>> list_diff = gestion.getDiffuseurs();
 				int numdiff = (list_diff.size() > 99)? 99:list_diff.size();
-				pw.print("LINB " + String.valueOf(numdiff) + "\r\n");
+				pw.print("LINB " + Entite.ajout_zero(String.valueOf(numdiff),2) + "\r\n");
 				pw.flush();
 				for(List<String> diff : list_diff)
 				{
