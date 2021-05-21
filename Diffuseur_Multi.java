@@ -19,25 +19,24 @@ public final class Diffuseur_Multi implements Runnable{
 		   String addr_multi = diff.getAdresseMulti();
 		   while(true)
 		   {
-			   //Envoi de message toutes les 2 secondes
-			   Thread.sleep(2000);
+			   //Envoi de message toutes les 1 secondes
+			   Thread.sleep(1000);
 			   synchronized(diff)
 			   {
 				   if (diff.getMessageADiffuser().size() == 0)
 				   {
 					   continue;
 				   }
-					Message msg = diff.getMessageADiffuser().get(0);
-					String identifiant = Entite.ajout_diese(msg.getIdentifiant(),8);
- 				   String message_a_diff = Entite.ajout_diese(msg.getMessage(),140);
- 				   String compt_to_send = String.valueOf(diff.getCompteur());
+				   Message msg = diff.getMessageADiffuser().get(0);
+				   String identifiant = Entite.ajout_diese(msg.getIdentifiant(),8);
+				   String message_a_diff = Entite.ajout_diese(msg.getMessage(),140);
+				   String compt_to_send = String.valueOf(diff.getCompteur());
  				   compt_to_send = Entite.ajout_zero(compt_to_send,4);
  				   String mess = "DIFF " + compt_to_send + " " + identifiant + " " + message_a_diff + "\r\n";
  				   data = mess.getBytes();
- 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,
- 											   InetAddress.getByName(addr_multi),port_multi);
- 					env.send(diffuse);
- 					diff.diffusion_message(msg);
+ 				   DatagramPacket diffuse = new DatagramPacket(data,data.length,InetAddress.getByName(addr_multi),port_multi);
+				   env.send(diffuse);
+				   diff.diffusion_message(msg);
 				}
 			}
 
