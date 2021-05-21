@@ -26,6 +26,7 @@ public class Diffuseur_Client implements Runnable {
 			System.out.println(mess.length());
 			String type_mess = mess.substring(0,4);
 			System.out.println(type_mess);
+			//Message de type MESS
 			if (type_mess.equals("MESS"))
 			{
 				String id = mess.substring(5,13);
@@ -46,6 +47,7 @@ public class Diffuseur_Client implements Runnable {
 					pw.flush();
 				}
 			}
+			//Message de type LAST
 			else if (type_mess.equals("LAST")) {
 				int nb_mess = Integer.parseInt(mess.substring(5,8));
 				List<Message> message = new ArrayList<>(diff.getMessageDiffuse());
@@ -67,6 +69,7 @@ public class Diffuseur_Client implements Runnable {
 				pw.print("ENDM\r\n");
 				pw.flush();
 			}
+			//Autre message 
 			else
 			{
 				System.out.println("Message " + mess + "non reconnu");

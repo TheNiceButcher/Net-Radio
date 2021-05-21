@@ -16,6 +16,7 @@ public final class Diffuseur_TCP implements Runnable {
 			int port = diff.getPortTCP();
 			ServerSocket server = new ServerSocket(port);
 			InetAddress address_diff = server.getInetAddress();
+			//Gestion des communications Diffuseur-Gestionnaire
 			new Thread(new Diffuseur_Gestionnaire(diff,InetAddress.getLocalHost().getHostAddress())).start();
 			while(true)
 			{

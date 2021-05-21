@@ -1,8 +1,9 @@
 /**
-Permet la creation d'un gestionnaire 
+Permet la creation d'un gestionnaire
 **/
 public class Gestionnaire {
 	public static void main(String[] args) {
+		//Absence du port et / ou du nombre maximal de diffuseur -> affichage erreur + arret programme 
 		if(args.length != 2)
 		{
 			System.out.println("Un gestionnaire doit être lancé avec 2 arguments: son port, et son nombre maximal de diffuseur");
