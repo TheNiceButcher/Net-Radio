@@ -205,7 +205,7 @@ void * tcp(void * args)
 						char item[SIZE_ITEM+1];
 						int r = recv(sock,item,SIZE_ITEM,0);
 						item[r] = '\0';
-						printf("%s\n",item);
+						printf("Message %d %s\n",i,item);
 					}
 				}
 				else
