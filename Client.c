@@ -204,6 +204,10 @@ void * tcp(void * args)
 					{
 						char item[SIZE_ITEM+1];
 						int r = recv(sock,item,SIZE_ITEM,0);
+						if (r<=0)
+						{
+							printf("Pourquoi\n");
+						}
 						item[r] = '\0';
 						printf("Message %d %s\n",i,item);
 					}
