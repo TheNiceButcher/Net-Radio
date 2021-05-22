@@ -14,6 +14,7 @@ public final class Un_Gestionnaire
 	private final int port;
 	private final int max_diff;
 	private List<List<String>> diffuseurs;
+	private boolean dispo_ecrit;
 	/**
 	Crée une instance de Un_Gestionnaire avec le port et le nombre maximal de
 	diffuseur qu'il peut stocker
@@ -27,6 +28,7 @@ public final class Un_Gestionnaire
 		this.port = port;
 		this.max_diff = max_diff;
 		this.diffuseurs = new ArrayList<>();
+		this.dispo_ecrit = true;
 	}
 	/**
 	Renvoie le port sur lequel on peut communiquer avec ce gestionnaire
@@ -40,6 +42,14 @@ public final class Un_Gestionnaire
 	**/
 	public synchronized List<List<String>> getDiffuseurs()
 	{
+		try{
+			while(this.dispo_ecrit){wait();}
+			this.dispo_ecrit = true;
+			notifyAll();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return new ArrayList<>(diffuseurs);
 	}
 	/**
@@ -48,6 +58,14 @@ public final class Un_Gestionnaire
 	**/
 	public synchronized boolean ajout_diff(Un_Diffuseur diff,String ip)
 	{
+		try{
+			while(!this.dispo_ecrit){wait();}
+			this.dispo_ecrit = false;
+			notifyAll();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		if(diffuseurs.size() == this.max_diff)
 		{
 			return false;
@@ -64,6 +82,14 @@ public final class Un_Gestionnaire
 	**/
 	public synchronized boolean retrait_diff(String id)
 	{
+		try{
+			while(!dispo_ecrit){wait();}
+
+			this.dispo_ecrit = false;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		Iterator<List<String>> it = this.diffuseurs.iterator();
 		while(it.hasNext())
 		{
