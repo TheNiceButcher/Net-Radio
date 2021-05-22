@@ -42,17 +42,22 @@ void * multi_cast(void * args)
 	int fd = 0;
 	memcpy(&fd,args,sizeof(int));
 	char tampon[SIZE_DIFF+2];
+	//Tant que le client n'appuie pas sur 4, on continue
 	while(!client->arret){
 		int rec=recv(sock,tampon,SIZE_DIFF+2,0);
 		if(rec < 0)
 			break;
 
 		tampon[rec]='\0';
+		//On verifie si le message DIFF est au bon format
+
+		//Par la taille
 		if(rec != SIZE_DIFF+2)
 		{
 			write(fd,"Mauvaise taille de message DIFF\n",33);
 			continue;
 		}
+		//Par la composition du message
 		if (verif_diff(fd,tampon))
 		{
 			affichage_diff(fd,tampon);
@@ -72,6 +77,7 @@ void * tcp(void * args)
 	struct sockaddr_in adress_sock;
 	adress_sock.sin_family = AF_INET;
 	int sock = 0;
+	//Tant que le client n'appuie pas sur 4, on continue
 	while(!client->arret)
 	{
 		int choix;
@@ -79,14 +85,16 @@ void * tcp(void * args)
 		int t = 0;
 		char address_gest[16];
 		int port_gest = 0;
-		printf("Que souhaitez-vous ?\n1-Envoi Message 2-Dernier message 3-Liste de diffuseur par un diffuseur 4-Arret du client\n");
+		printf("Que souhaitez-vous ?\n1-Envoi Message 2-Dernier message 3-Liste de diffuseur par un gestionnaire 4-Arret du client\n");
 		scanf("%d",&choix);
 		switch (choix) {
+			//Envoi Message au diffuseur
 			case 1:
 				t = 0;
 				adress_sock.sin_port = htons(atoi(client->port_tcp));
 				inet_aton(client->addr_diff,&adress_sock.sin_addr);
 				break;
+			//Dernier message au diffuseur
 			case 2:
 				t = 1;
 				printf("Quel nombre de messages ?\n");
@@ -94,6 +102,7 @@ void * tcp(void * args)
 				adress_sock.sin_port = htons(atoi(client->port_tcp));
 				inet_aton(client->addr_diff,&adress_sock.sin_addr);
 				break;
+			//Liste diffuseur a un gestionnaire
 			case 3:
 				t = 2;
 				printf("Quelle adresse pour le gestionnaire ?\n");
@@ -103,6 +112,7 @@ void * tcp(void * args)
 				adress_sock.sin_port = htons(port_gest);
 				inet_aton(address_gest,&adress_sock.sin_addr);
 				break;
+			//Demande d'arret
 			case 4:
 				printf("Arret du client\n");
 				client->arret = 1;
@@ -116,6 +126,7 @@ void * tcp(void * args)
 		int r = connect(sock,(struct sockaddr *)&adress_sock,sizeof(struct sockaddr_in));
 		if(r != -1)
 		{
+			//Envoi message
 			if (t == 0)
 			{
 				char to_send[SIZE_MESS + 5];
@@ -141,6 +152,7 @@ void * tcp(void * args)
 				}
 				close(sock);
 			}
+			//Demande Dernier message
 			if(t == 1)
 			{
 				char to_send[11];
@@ -163,6 +175,7 @@ void * tcp(void * args)
 				}
 				close(sock);
 			}
+			//Liste diffuseur par un gestionnaire
 			if(t == 2)
 			{
 				char to_send[]="LIST\r\n";
@@ -171,7 +184,7 @@ void * tcp(void * args)
 				int r = recv(sock,nb_diff_msg,9,0);
 				nb_diff_msg[r] = '\0';
 				printf("%s\n",nb_diff_msg);
-				if (strncmp(nb_diff_msg,"LINB",4)==0)
+				if (verif_linb(nb_diff_msg))
 				{
 					char nb_diffs[3];
 					strncpy(nb_diffs,nb_diff_msg + 5,2);
@@ -185,6 +198,10 @@ void * tcp(void * args)
 						item[r] = '\0';
 						printf("%s\n",item);
 					}
+				}
+				else
+				{
+					printf("Mauvais format de message LIBN %s\n",nb_diff_msg);
 				}
 				close(sock);
 			}
@@ -206,6 +223,7 @@ int main(int argc, char const *argv[]) {
 	char * fichier = malloc(strlen(argv[1]));
 	strcpy(fichier,argv[1]);
 	fichier[strlen(argv[1])] = '\0';
+	//Creation du client
 	client = create_client(fichier);
 	if(client == NULL)
 	{

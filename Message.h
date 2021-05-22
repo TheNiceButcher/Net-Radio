@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-//Constante sur la taille des composantes d'un message
+//Constante sur la taille des composantes d'un message (sans \r\n)
 #define SIZE_TYPE 4
 #define SIZE_ID 8
 #define SIZE_IP 15
@@ -13,9 +13,11 @@
 #define SIZE_PORT 4
 #define SIZE_NMSG_DIFF 4
 #define SIZE_NMSG_LAST 3
+#define SIZE_NDIF_LIBN 2
 #define SIZE_MESS (SIZE_TYPE + SIZE_ID + SIZE_MSG + 2)
 #define SIZE_DIFF (SIZE_TYPE + SIZE_NMSG_DIFF + SIZE_ID + SIZE_MSG + 3)
 #define SIZE_ITEM (SIZE_TYPE + 2*SIZE_IP + 2*SIZE_PORT + SIZE_ID + 5)
+#define SIZE_LIBN (SIZE_TYPE + SIZE_NDIF_LIBN + 1)
 /**
 Verifie si le composant num_msg est au bon format
 Renvoie 1 si c'est le cas, 0 sinon
@@ -91,7 +93,7 @@ char * retrait_diese(char * mot)
 	return new_mot;
 }
 /**
-Affiche le message diff en argument, en lui enlevant les # 
+Affiche le message diff en argument, en lui enlevant les #
 **/
 void affichage_diff(int fd,char * diff)
 {
@@ -105,4 +107,25 @@ void affichage_diff(int fd,char * diff)
 	char diff_final[SIZE_DIFF+1];
 	sprintf(diff_final,"DIFF %s %s %s\n",num_msg,retrait_diese(pseudo),retrait_diese(msg));
 	write(fd,diff_final,strlen(diff_final));
+}
+/*
+Verifie si le message en argument est un message LIBN au bon format.
+Renvoie 1 si c'est le cas. 0 sinon
+*/
+int verif_linb(char * message)
+{
+	if (strncmp(message,"LINB",4)==0)
+	{
+		if (strlen(message) == SIZE_LIBN + 2)
+		{
+			if(message[4] == ' ' && message[7] == '\r' && message[8] == '\n')
+			{
+				if (message[5] >= '0' && message[5] <= '9' && message[6] >= '0' && message[6] <= '9')
+				{
+					return 1;
+				}
+			}
+		}
+	}
+	return 0;
 }

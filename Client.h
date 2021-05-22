@@ -29,6 +29,7 @@ Client * create_client(char * filename)
 	char contenu_fich[55];
 	int a = read(fd,contenu_fich,55);
 	contenu_fich[a] = '\0';
+	//Tableau contenant les index délimitant les caractéristiques de configuration
 	int indexes[5] = { 0 };
 	int i = 0;
 	int j = 0;
