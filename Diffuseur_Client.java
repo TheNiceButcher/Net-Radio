@@ -23,15 +23,12 @@ public class Diffuseur_Client implements Runnable {
 			br.read(readd,0,157);
 			String mess = new String(readd);
 			System.out.println(mess);
-			System.out.println(mess.length());
 			String type_mess = mess.substring(0,4);
-			System.out.println(type_mess);
 			//Message de type MESS
 			if (type_mess.equals("MESS"))
 			{
 				String id = mess.substring(5,13);
 				String message = mess.substring(14,154);
-				System.out.println(id + " " + message);
 				if(mess.charAt(4) != ' ' || mess.charAt(13) != ' ')
 				{
 					System.out.println("Mauvais format pour MESS");
@@ -69,7 +66,7 @@ public class Diffuseur_Client implements Runnable {
 				pw.print("ENDM\r\n");
 				pw.flush();
 			}
-			//Autre message 
+			//Autre message
 			else
 			{
 				System.out.println("Message " + mess + "non reconnu");

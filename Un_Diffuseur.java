@@ -93,8 +93,7 @@ public final class Un_Diffuseur {
 		if (f.exists())
 		{
 			List<String> list_args = new ArrayList<>();
-			try {
-				BufferedReader d = new BufferedReader(new FileReader(f));
+			try(BufferedReader d = new BufferedReader(new FileReader(f));) {
 				String current_line = "";
 				while((current_line = d.readLine())!=null)
 				{
@@ -165,8 +164,6 @@ public final class Un_Diffuseur {
 	**/
 	public synchronized void ajout_message(String message, String identifiant)
 	{
-		System.out.println(message);
-		//this.mess_a_diff.add(0,Arrays.asList(identifiant,message));
 		this.mess_a_diff.add(0,new Message(identifiant,message));
 	}
 	/**
@@ -181,7 +178,8 @@ public final class Un_Diffuseur {
 			this.mess_diffuse.remove(0);
 		}
 		this.mess_diffuse.add(new Message(getCompteur(),mess.getIdentifiant(),mess.getMessage()));
-		this.mess_a_diff.add(new Message(mess.getIdentifiant(),mess.getMessage()));
+		if(mess.getIdentifiant().equals(this.getIdentifiant()))
+			this.mess_a_diff.add(new Message(mess.getIdentifiant(),mess.getMessage()));
 		incrCompteur();
 	}
 	/**

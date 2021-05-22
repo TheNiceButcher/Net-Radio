@@ -77,6 +77,14 @@ void * tcp(void * args)
 	struct sockaddr_in adress_sock;
 	adress_sock.sin_family = AF_INET;
 	int sock = 0;
+	char **msgs = malloc (10 * sizeof(char *));
+	msgs[0] = "Coucou\nJe suis un message";
+	msgs[1] = "Gloire a l'Olympique Lyonnais";
+	msgs[2] = "Vive Jean-Michel Aulas";
+	msgs[3] = "Propos tenus par un fervant supporter lyonnais";
+	msgs[4] = NULL;
+	int taille_msg = 4;
+	int index_msgs = 0;
 	//Tant que le client n'appuie pas sur 4, on continue
 	while(!client->arret)
 	{
@@ -131,11 +139,12 @@ void * tcp(void * args)
 			{
 				char to_send[SIZE_MESS + 5];
 				char message[SIZE_MSG+2];
-				sprintf(message,"Coucou");
+				sprintf(message,"%s",msgs[index_msgs]);
 				for(int i = strlen(message); i < SIZE_MSG;i++)
 				{
 					message[i] = '#';
 				}
+				index_msgs = (index_msgs + 1) % taille_msg;
 				message[SIZE_MSG] = '\0';
 				sprintf(to_send,"MESS %s %s\r\n",client->id,message);
 				char mess[SIZE_TYPE+3];
