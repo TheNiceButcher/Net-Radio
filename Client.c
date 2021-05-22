@@ -209,7 +209,14 @@ void * tcp(void * args)
 					}
 					else
 					{
-						printf("%s\n", temp);
+						for(int i = 0; i < nb_diff;i++)
+						{
+							char tmp[SIZE_ITEM + 3];
+							strncpy(tmp,temp + i*(SIZE_ITEM + 2),SIZE_ITEM + 2);
+							tmp[SIZE_ITEM + 2] = '\0';
+							printf("%s\n",tmp);
+						}
+						//printf("%s\n", temp);
 					}
 				}
 				else
