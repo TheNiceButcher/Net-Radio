@@ -226,7 +226,7 @@ void * tcp(void * args)
 int main(int argc, char const *argv[]) {
 	if (argc < 2)
 	{
-		printf("Veuillez indiquer un fichier de configuration\n");
+		write(STDERR_FILENO,"Veuillez indiquer un fichier de configuration\n",48);
 		return 0;
 	}
 	char * fichier = malloc(strlen(argv[1]));
@@ -236,7 +236,7 @@ int main(int argc, char const *argv[]) {
 	client = create_client(fichier);
 	if(client == NULL)
 	{
-		write(STDERR_FILENO,"Fichier de configuration incorrect",35);
+		write(STDERR_FILENO,"Fichier de configuration incorrect\n",36);
 		return EXIT_FAILURE;
 	}
 	int fd_multi = 1;
