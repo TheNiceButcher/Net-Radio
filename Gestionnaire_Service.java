@@ -45,7 +45,6 @@ public class Gestionnaire_Service implements Runnable,Entite
 						System.out.println(msg);
 						pw.print(msg);
 						pw.flush();
-						msg_global += msg;
 					}
 				}
 				else
