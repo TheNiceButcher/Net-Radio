@@ -16,8 +16,7 @@ public class Diffuseur_Gestionnaire implements Runnable{
 	public void run()
 	{
 		try (Scanner s = new Scanner(System.in);){
-			while(true){
-				while(true)
+			while(true)
 				{
 					System.out.println("Tapez 1 pour être enregistré dans un gestionnaire");
 					int c = s.nextInt();
@@ -33,7 +32,7 @@ public class Diffuseur_Gestionnaire implements Runnable{
 				Socket sock = new Socket(addr,port);
 				BufferedReader br=new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				PrintWriter pw=new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
-				String mess = "REGI " + Entite.ajout_diese(diff.getIdentifiant()) + " " + Entite.convert_ip(diff.getAdresseMulti());
+				String mess = "REGI " + Entite.ajout_diese(diff.getIdentifiant(),8) + " " + Entite.convert_ip(diff.getAdresseMulti());
 				mess += " " + Entite.ajout_zero(String.valueOf(diff.getPortMulti()),4) + " " + Entite.convert_ip(addr_diff);
 				mess += " " + Entite.ajout_zero(String.valueOf(diff.getPortTCP()),4);
 				pw.print(mess + "\r\n");
@@ -70,7 +69,6 @@ public class Diffuseur_Gestionnaire implements Runnable{
 				br.close();
 				pw.close();
 				sock.close();
-			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
