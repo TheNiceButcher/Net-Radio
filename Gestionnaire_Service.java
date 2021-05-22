@@ -49,6 +49,7 @@ public class Gestionnaire_Service implements Runnable,Entite
 			//Message REGI -> msg gestionnaire
 			if(type_mess.equals("REGI"))
 			{
+				System.out.println(mess);
 				String id = mess.substring(5,13);
 				String ip1 = mess.substring(14,29);
 				String port1 = mess.substring(30,34);
