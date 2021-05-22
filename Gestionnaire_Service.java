@@ -9,6 +9,9 @@ public class Gestionnaire_Service implements Runnable,Entite
 {
 	private Un_Gestionnaire gestion;
 	private Socket socket;
+	/**
+	Cree une instance avec le gestionnaire et le socket en argument
+	**/
 	public Gestionnaire_Service(Un_Gestionnaire gestion, Socket socket)
 	{
 		this.gestion = gestion;

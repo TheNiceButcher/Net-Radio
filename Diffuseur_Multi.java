@@ -6,6 +6,9 @@ import java.net.*;
 **/
 public final class Diffuseur_Multi implements Runnable{
 	private Un_Diffuseur diff;
+	/**
+	Cree une instance de la classe avec le diffuseur en arguement
+	**/
 	public Diffuseur_Multi(Un_Diffuseur diff)
 	{
 		this.diff = diff;
@@ -23,6 +26,7 @@ public final class Diffuseur_Multi implements Runnable{
 			   Thread.sleep(750);
 			   synchronized(diff)
 			   {
+				   //Si la liste est vide, on refait un tour de boucle 
 				   if (diff.getMessageADiffuser().size() == 0)
 				   {
 					   continue;

@@ -1,5 +1,6 @@
 /**
-Permet la creation d'un gestionnaire
+Permet la creation d'un gestionnaire. Attend en argument le port et
+le nombre maximal de diffuseur contenus dans le gestionnaire
 **/
 public class Gestionnaire {
 	public static void main(String[] args) {
@@ -15,6 +16,7 @@ public class Gestionnaire {
 			Un_Gestionnaire gest = new Un_Gestionnaire(port,nb_diff);
 			gest.lancer();
 		}
+		//Argument invalide lors de la création du gestionnaire
 		catch (IllegalArgumentException e) {
 			System.out.println("Erreur Gestionnaire " + e.getMessage());
 		}

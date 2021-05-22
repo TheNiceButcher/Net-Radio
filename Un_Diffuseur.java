@@ -61,7 +61,6 @@ public final class Un_Diffuseur {
 		this.mess_a_diff = new ArrayList<>();
 		for(String msg : mess)
 		{
-			//mess_a_diff.add(Arrays.asList(this.identifiant,msg));
 			mess_a_diff.add(new Message(this.identifiant,msg));
 		}
 		this.mess_diffuse = new ArrayList<>();
@@ -78,7 +77,15 @@ public final class Un_Diffuseur {
 		}
 		this.identifiant = id;
 		this.addr_multi = addr_multi;
+		if(port_multi > 9999 || port_multi < 0)
+		{
+			throw new IllegalArgumentException("Port Multi incorrect(doit être compris entre 0 et 9999)");
+		}
 		this.port_multi = port_multi;
+		if(port_tcp > 9999 || port_tcp < 0)
+		{
+			throw new IllegalArgumentException("Port TCP incorrect(doit être compris entre 0 et 9999)");
+		}
 		this.port_tcp = port_tcp;
 		this.mess_a_diff = new ArrayList<>();
 		this.mess_diffuse = new ArrayList<>();
@@ -173,11 +180,13 @@ public final class Un_Diffuseur {
 	public synchronized void diffusion_message(Message mess)
 	{
 		this.mess_a_diff.remove(0);
+		//Le client ne pouvant demander que 999 messages maximum
 		if(this.mess_diffuse.size() == 1000)
 		{
 			this.mess_diffuse.remove(0);
 		}
 		this.mess_diffuse.add(new Message(getCompteur(),mess.getIdentifiant(),mess.getMessage()));
+		//Ajout des messages diffuses à la fin des messages à diffuser afin de ne pas être à court de message
 		if(mess.getIdentifiant().equals(this.getIdentifiant()))
 			this.mess_a_diff.add(new Message(mess.getIdentifiant(),mess.getMessage()));
 		incrCompteur();

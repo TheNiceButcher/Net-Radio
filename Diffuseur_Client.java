@@ -8,6 +8,9 @@ import java.util.*;
 public class Diffuseur_Client implements Runnable {
 	private Un_Diffuseur diff;
 	private Socket socket;
+	/**
+	Cree une instance de la classe avec le socket et le diffuseur correspondant 
+	**/
 	public Diffuseur_Client(Socket socket,Un_Diffuseur diff)
 	{
 		this.socket = socket;

@@ -6,12 +6,15 @@ import java.util.*;
 Gére la communication entre un diffuseur et un gestionnaire
 **/
 public class Diffuseur_Gestionnaire implements Runnable{
-	private String addr_diff;
-	private Un_Diffuseur diff;
-	public Diffuseur_Gestionnaire(Un_Diffuseur addr_diff,String ip)
+	private String addr_diff; //Adresse du diffuseur
+	private Un_Diffuseur diff; //Le diffuseur
+	/**
+	Crée une instance de la classe avec le diffuseur en argument et son adresse IP
+	**/
+	public Diffuseur_Gestionnaire(Un_Diffuseur diff,String ip)
 	{
 		this.addr_diff = ip;
-		this.diff = addr_diff;
+		this.diff = diff;
 	}
 	public void run()
 	{

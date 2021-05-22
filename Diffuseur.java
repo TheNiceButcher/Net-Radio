@@ -7,7 +7,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 /**
- Permet la création d'un diffuseur
+ Permet la création d'un diffuseur. On demande en argument le chemin du
+ fichier de configuration
 **/
 public class Diffuseur {
 	public static void main(String[] args) {
@@ -36,6 +37,7 @@ public class Diffuseur {
 		catch (ArrayIndexOutOfBoundsException fich) {
 			System.out.println("Pour lancer le diffuseur, il faut le fichier de configuration en argument");
 		}
+		//Absence du fichier contenant les messages
 		catch (FileNotFoundException misse) {
 			System.out.println("Fichier message-diff.txt introuvable à la racine");
 		}

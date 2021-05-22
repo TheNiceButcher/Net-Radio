@@ -8,7 +8,10 @@ Gére la communication entre un gestionnaire et les diffuseurs
 public class Gestionnaire_Diffuseur implements Runnable{
 	private Socket sock;
 	private Un_Gestionnaire gest;
-	private String id;
+	private String id; //Identifiant du diffuseur
+	/**
+	Cree une instance avec le socket, gestionnaire et diffuseur en argument
+	**/
 	public Gestionnaire_Diffuseur(Socket sock,Un_Gestionnaire gest, Un_Diffuseur diff)
 	{
 		this.sock = sock;

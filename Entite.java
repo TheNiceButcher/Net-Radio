@@ -1,3 +1,7 @@
+/**
+Classe contenant des fonctions servant dans le formatage des différents
+composants des messages
+**/
 public interface Entite {
 	/**
 	Renvoie mot à la bonne longueur (lg_voulu), en le complémentant avec des '#'
@@ -53,7 +57,7 @@ public interface Entite {
 		return new_ip;
 	}
 	/**
-	Retire les dieses de bourrage 
+	Retire les dieses de bourrage
 	**/
 	public static String retrait_diese(String mot)
 	{
