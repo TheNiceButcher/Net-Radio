@@ -200,14 +200,18 @@ void * tcp(void * args)
 					nb_diffs[2] = '\0';
 					int nb_diff = atoi(nb_diffs);
 					printf("%d\n",nb_diff);
-					for(int i = 0; i < nb_diff; i++)
+					/*for(int i = 0; i < nb_diff; i++)
 					{
 						char item[SIZE_ITEM+1];
 						int r = recv(sock,item,SIZE_ITEM,0);
 						printf("%d\n",r);
 						item[r] = '\0';
 						printf("Message %d %s\n",i,item);
-					}
+					}*/
+					char temp[(SIZE_ITEM + 2)*nb_diff + 1];
+					int r = recv(sock,temp,(SIZE_ITEM + 2)*nb_diff,0);
+					temp[r] = '\0';
+					printf("%s\n", temp);
 				}
 				else
 				{

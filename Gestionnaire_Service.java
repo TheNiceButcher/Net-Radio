@@ -34,6 +34,7 @@ public class Gestionnaire_Service implements Runnable,Entite
 					pw.print("LINB " + Entite.ajout_zero(String.valueOf(numdiff),2) + "\r\n");
 					pw.flush();
 					list_diff = list_diff.subList(0,numdiff);
+					String msg_global = "";
 					for(List<String> diff : list_diff)
 					{
 						String id = diff.get(0);
@@ -41,11 +42,14 @@ public class Gestionnaire_Service implements Runnable,Entite
 						String ip1 = diff.get(2);
 						String port2 = diff.get(3);
 						String ip2 = diff.get(4);
-						String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2;
-						pw.print(msg + "\r\n");
-						pw.flush();
+						String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2 + "\r\n";
+						/*pw.print(msg);
+						pw.flush();*/
 						System.out.println(msg);
+						msg_global += msg;
 					}
+					pw.print(msg_global);
+					pw.flush();
 				}
 			}
 			//Message REGI -> msg gestionnaire
