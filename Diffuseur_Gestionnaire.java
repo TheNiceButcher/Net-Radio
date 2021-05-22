@@ -5,7 +5,7 @@ import java.util.*;
 /**
 Gére la communication entre un diffuseur et un gestionnaire
 **/
-public class Diffuseur_Gestionnaire implements Runnable,Entite{
+public class Diffuseur_Gestionnaire implements Runnable{
 	private String addr_diff;
 	private Un_Diffuseur diff;
 	public Diffuseur_Gestionnaire(Un_Diffuseur addr_diff,String ip)
@@ -41,9 +41,9 @@ public class Diffuseur_Gestionnaire implements Runnable,Entite{
 			br.read(readd,0,6);
 			String msg_retour = new String(readd);
 			System.out.print(msg_retour);
+			//Diffuseur enregistré dans le gestionnaire
 			if(msg_retour.equals("REOK\r\n"))
 			{
-				System.out.println("Yo mon frere");
 				while(true)
 				{
 					br.read(readd,0,6);
@@ -57,10 +57,17 @@ public class Diffuseur_Gestionnaire implements Runnable,Entite{
 						break;
 				}
 			}
-			else if(msg_retour.equals("RENO"))
+			//Enregistrement impossible
+			else if(msg_retour.equals("RENO\r\n"))
 			{
-				System.out.println(msg_retour + " Impossible d'enregistrer");
+				System.out.println("RENO -> Impossible d'enregistrer");
 			}
+			else
+			{
+				System.out.println("Message " + msg_retour + " inconnu");
+			}
+			br.close();
+			pw.close();
 			sock.close();
 		} catch(Exception e) {
 			e.printStackTrace();

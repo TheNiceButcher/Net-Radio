@@ -60,6 +60,7 @@ public class Gestionnaire_Service implements Runnable,Entite
 				if(ok)
 				{
 					pw.print("REOK\r\n");
+					System.out.println("REOK pour " + diff.getIdentifiant());
 					pw.flush();
 					Gestionnaire_Diffuseur g = new Gestionnaire_Diffuseur(socket,gestion,diff);
 					Thread t =  new Thread(g);
@@ -69,6 +70,7 @@ public class Gestionnaire_Service implements Runnable,Entite
 				//Plus de place -> envoi message RENO et fermeture connexion
 				else
 				{
+					System.out.println("RENO pour " + diff.getIdentifiant());
 					pw.print("RENO\r\n");
 					pw.flush();
 				}

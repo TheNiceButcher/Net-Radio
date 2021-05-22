@@ -17,6 +17,7 @@ public class Gestionnaire_Diffuseur implements Runnable{
 	}
 	public void run()
 	{
+		System.out.println("Liste diffuseur " + gest.getDiffuseurs());
 		boolean is_connected = true;
 		try (
 		BufferedReader br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -52,6 +53,7 @@ public class Gestionnaire_Diffuseur implements Runnable{
 		} catch(SocketTimeoutException e) {
 			System.out.println("Connexion perdu avec " + id);
 			gest.retrait_diff(id);
+			System.out.println("Diffuseurs " + gest.getDiffuseurs());
 			try {
 				sock.close();
 			} catch(Exception e1) {

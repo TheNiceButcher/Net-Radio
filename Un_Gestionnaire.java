@@ -68,7 +68,7 @@ public final class Un_Gestionnaire
 		while(it.hasNext())
 		{
 			List<String> l = it.next();
-			if(l.contains(id))
+			if(l.get(0).equals(id))
 			{
 				it.remove();
 				return true;
