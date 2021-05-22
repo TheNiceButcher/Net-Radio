@@ -44,14 +44,20 @@ public class Gestionnaire_Service implements Runnable,Entite
 						String ip2 = diff.get(4);
 						String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2 + "\r\n";
 						System.out.println(msg);
+						pw.print(msg);
+						pw.flush();
 						msg_global += msg;
 					}
-					pw.print(msg_global);
-					pw.flush();
+					/*pw.print(msg_global);
+					pw.flush();*/
+				}
+				else
+				{
+					System.out.println("Mauvais format pour LIST");
 				}
 			}
 			//Message REGI -> msg gestionnaire
-			if(type_mess.equals("REGI"))
+			else if(type_mess.equals("REGI"))
 			{
 				System.out.println(mess);
 				String id = mess.substring(5,13);
@@ -79,6 +85,10 @@ public class Gestionnaire_Service implements Runnable,Entite
 					pw.print("RENO\r\n");
 					pw.flush();
 				}
+			}
+			else
+			{
+				System.out.println("Message inconnu");
 			}
 			socket.close();
 		} catch(Exception e) {
