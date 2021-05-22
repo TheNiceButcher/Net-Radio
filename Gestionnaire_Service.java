@@ -43,14 +43,11 @@ public class Gestionnaire_Service implements Runnable,Entite
 						String port2 = diff.get(3);
 						String ip2 = diff.get(4);
 						String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2 + "\r\n";
-						pw.print(msg);
-						pw.flush();
-						Thread.sleep(100);
 						System.out.println(msg);
 						msg_global += msg;
 					}
-					/*pw.print(msg_global);
-					pw.flush();*/
+					pw.print(msg_global);
+					pw.flush();
 				}
 			}
 			//Message REGI -> msg gestionnaire
