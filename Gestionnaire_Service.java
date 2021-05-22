@@ -28,22 +28,24 @@ public class Gestionnaire_Service implements Runnable,Entite
 			//Message recu List -> msg d'un client, traitement immediat
 			if (type_mess.equals("LIST"))
 			{
-				System.out.println(mess.substring(4));
-				List<List<String>> list_diff = gestion.getDiffuseurs();
-				int numdiff = (list_diff.size() > 99)? 99:list_diff.size();
-				pw.print("LINB " + Entite.ajout_zero(String.valueOf(numdiff),2) + "\r\n");
-				pw.flush();
-				for(List<String> diff : list_diff)
-				{
-					String id = diff.get(0);
-					String port1 = diff.get(1);
-					String ip1 = diff.get(2);
-					String port2 = diff.get(3);
-					String ip2 = diff.get(4);
-					String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2;
-					pw.print(msg + "\r\n");
+				if (mess.equals("LIST\r\n")){
+					List<List<String>> list_diff = gestion.getDiffuseurs();
+					int numdiff = (list_diff.size() > 99)? 99:list_diff.size();
+					pw.print("LINB " + Entite.ajout_zero(String.valueOf(numdiff),2) + "\r\n");
 					pw.flush();
-					System.out.println(msg);
+					list_diff = list_diff.subList(0,numdiff);
+					for(List<String> diff : list_diff)
+					{
+						String id = diff.get(0);
+						String port1 = diff.get(1);
+						String ip1 = diff.get(2);
+						String port2 = diff.get(3);
+						String ip2 = diff.get(4);
+						String msg = "ITEM " + id + " " + ip1 + " " + port1 + " " + ip2 + " " + port2;
+						pw.print(msg + "\r\n");
+						pw.flush();
+						System.out.println(msg);
+					}
 				}
 			}
 			//Message REGI -> msg gestionnaire
