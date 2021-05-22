@@ -35,13 +35,14 @@ public class Gestionnaire_Diffuseur implements Runnable{
 				// déconnexion
 				if(r == -1)
 				{
-					System.out.println("Connexion perdu avec " + id);
+					System.out.println("Connexion perdue avec " + id);
 					gest.retrait_diff(id);
+					System.out.println("Liste Diffuseur " + gest.getDiffuseurs());
 					is_connected = false;
 				}
 				else if(s.equals("IMOK\r\n"))
 				{
-					System.out.println(id + "Bien connecté");
+					System.out.println(id + " Bien connecté");
 				}
 				else
 				{
@@ -51,7 +52,7 @@ public class Gestionnaire_Diffuseur implements Runnable{
 			}
 			//Le diffuseur n'a pas répondu en 11 secondes -> on le retire de la liste
 		} catch(SocketTimeoutException e) {
-			System.out.println("Connexion perdu avec " + id);
+			System.out.println("Connexion perdue avec " + id);
 			gest.retrait_diff(id);
 			System.out.println("Diffuseurs " + gest.getDiffuseurs());
 			try {
