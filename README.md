@@ -15,8 +15,8 @@ du fichier de configuration voulue (dont la forme sera expliquée dans la partie
 et `path` le chemin du fichier où l'on veut rediriger les messages reçus en multi-diffusion.
 `path`. `path` est optionnel; s'il n'est pas renseigné, les messages seront affichés
 dans la sortie standard.
-	* `java Gestionnaire port nb_max_diff` où `port` est le numéro du port où il écoute et
-`nb_max_diff` est le nombre maximal de diffuseur qu'il peut stocker.
+	* `java Gestionnaire port nb_max_diff` où `port` est le numéro du port où il écoute (doit être inférieur à 10000)
+et `nb_max_diff` est le nombre maximal de diffuseur qu'il peut stocker.
 
 ### Format des fichiers de configuration
 #### Diffuseur
@@ -30,6 +30,7 @@ port_tcp
 où id est l'identifiant du diffuseur et doit être d'une longueur maximale de 8 caractères,
 addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il diffuse les messages, port_multi est le port (< 10000) pour la multi-diffusion, et port_tcp est le port
 pour les communications en TCP (< 10000).
+Le fichier `diff-config.txt` en est un exemple.
 #### Client
  Un fichier de configuration pour le client est de cette forme :
 ```
@@ -42,6 +43,7 @@ pour les communications en TCP (< 10000).
  où id est l'identifiant du client et doit être d'une longueur maximale de 8 caractères,
  addr_multi est l'adresse de multi-diffusion (au format a.b.c.d) sur laquelle il se connecte pour recevoir les messages, port_multi est le port (< 10000) pour la multi-diffusion, addr_diff est l'adresse du diffuseur (au format a.b.c.d) et port_tcp est le port
  pour les communications en TCP du diffuseur (< 10000).
+ Le fichier `client-config.txt` en est un exemple.
 
 ## Utilisation
 ### Client
@@ -72,7 +74,7 @@ Le projet est structuré à partir des 3 entités du programme (client, diffuseu
 * Le diffuseur est la partie du programme ayant le plus de code. Il se compose ainsi:
 	* Diffuseur.java : classe qui permet de lancer le diffuseur en tant que tel. Elle crée une instance de `Un_Diffuseur` et le lance.
 	* Un_Diffuseur.java : Représente le diffuseur.
-	* Diffuseur_Multi.java : Gère la diffusion des messages sur l'adresse de multi-diffusion.
+	* Diffuseur_Multi.java : Gère la diffusion des messages sur l'adresse de multi-diffusion d'une instance d'`Un_Diffuseur`.
 	* Diffuseur_TCP.java : Gère les communications en TCP du diffuseur. Pour cela, elle lance un thread avec une instance de `Diffuseur_Gestionnaire`,
 puis à chaque connexion d'un client, elle lance un thread avec une instance de `Diffuseur_Client`.
 	* Diffuseur_Client.java : Gère la communication entre un client et le diffuseur.
@@ -101,4 +103,8 @@ Surtout utilisé dans `Un_Diffuseur`.
 un message du réseau plus lisible.
 	* BadConfigFileException.java : Exception levée quand le fichier de configuration du diffuseur n'est
 pas au bon format. Utilisée dans `Diffuseur`.
- 	* message-diff.txt : Contient les messages à diffuser
+ 	* message-diff.txt : Contient les messages à diffuser par le diffuseur.
+	* client-config.txt : Fichier de configuration valide pour le client.
+	* diff-config.txt : Fichier de configuration valide pour le diffuseur.
+	* Bad_config_diff.txt : Fichier de configuration incorrect (identifiant trop long)
+pour le diffuseur.
