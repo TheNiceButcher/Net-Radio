@@ -19,8 +19,8 @@ public final class Diffuseur_Multi implements Runnable{
 		   String addr_multi = diff.getAdresseMulti();
 		   while(true)
 		   {
-			   //Envoi de message toutes les 1 secondes
-			   Thread.sleep(1000);
+			   //Envoi de message toutes les 0.75 secondes
+			   Thread.sleep(750);
 			   synchronized(diff)
 			   {
 				   if (diff.getMessageADiffuser().size() == 0)

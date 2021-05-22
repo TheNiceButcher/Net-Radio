@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 public class Diffuseur {
 	public static void main(String[] args) {
 		List<String> f = new ArrayList<>();
+		//Ajout message du fichier message-diff.txt
 		f.add("Bienvenue sur ce diffuseur\nCes messages sont des noms d'anime ou de manga");
 		try
 		{
