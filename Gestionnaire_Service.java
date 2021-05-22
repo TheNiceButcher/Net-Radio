@@ -34,7 +34,6 @@ public class Gestionnaire_Service implements Runnable,Entite
 					pw.print("LINB " + Entite.ajout_zero(String.valueOf(numdiff),2) + "\r\n");
 					pw.flush();
 					list_diff = list_diff.subList(0,numdiff);
-					String msg_global = "";
 					for(List<String> diff : list_diff)
 					{
 						String id = diff.get(0);
@@ -48,8 +47,6 @@ public class Gestionnaire_Service implements Runnable,Entite
 						pw.flush();
 						msg_global += msg;
 					}
-					/*pw.print(msg_global);
-					pw.flush();*/
 				}
 				else
 				{

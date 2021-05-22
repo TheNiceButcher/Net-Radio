@@ -200,23 +200,6 @@ void * tcp(void * args)
 					nb_diffs[2] = '\0';
 					int nb_diff = atoi(nb_diffs);
 					printf("%d\n",nb_diff);
-					/*char temp[(SIZE_ITEM + 2)*nb_diff + 1];
-					int r = recv(sock,temp,(SIZE_ITEM + 2)*nb_diff,0);
-					temp[r] = '\0';
-					if (r != (SIZE_ITEM + 2)*nb_diff)
-					{
-						printf("Erreur item\n");
-					}
-					else
-					{
-						for(int i = 0; i < nb_diff;i++)
-						{
-							char tmp[SIZE_ITEM + 3];
-							strncpy(tmp,temp + i*(SIZE_ITEM + 2),SIZE_ITEM + 2);
-							tmp[SIZE_ITEM + 2] = '\0';
-							printf("%s\n",tmp);
-						}
-					}*/
 					for (int i = 0; i < nb_diff; i++)
 					{
 						char tmp[SIZE_ITEM + 3];

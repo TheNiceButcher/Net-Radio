@@ -52,6 +52,9 @@ public interface Entite {
 		}
 		return new_ip;
 	}
+	/**
+	Retire les dieses de bourrage 
+	**/
 	public static String retrait_diese(String mot)
 	{
 		int i = mot.length() - 1;
